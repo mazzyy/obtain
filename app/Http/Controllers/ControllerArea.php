@@ -15,17 +15,34 @@ class ControllerArea extends Controller
         $companyid=Auth::user()->companyid;
 
         $locations = DB::table('locations')->where('company_id', '=', $companyid)->get();
- 
 
 
-       
+
+
         return view('Area')->with('locations',$locations);
-    } 
+    }
 
-    public function create(){
+    public function create(Request $request){
+
+        $companyid=Auth::user()->companyid;
+
+        $country=$request->input('country');
+        $city=$request->input('city');
+        $locality=$request->input('locality');
+        $sublocality=$request->input('sublocality');
+
+        $location=new location();
+        $location->company_id=$companyid;
+        $location->country=$country;
+        $location->city=$city;
+        $location->locality=$locality;
+        $location->sublocality=$sublocality;
+        $location->save();
 
 
 
+
+      return  true;
 
     }
 
