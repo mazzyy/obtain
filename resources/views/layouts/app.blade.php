@@ -13,7 +13,7 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
         <!-- Extra details for Live View on GitHub Pages -->
-        <script src="{{asset('js/jquery.min.js')}}"></script>
+        {{-- <script src="{{asset('js/jquery.min.js')}}"></script> --}}
         {{-- jquery --}}
         <script
   src="https://code.jquery.com/jquery-3.6.0.min.js"
