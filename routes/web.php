@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,14 +36,18 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 
 	//createEmployess
-	Route::get('/createEmployees', 'App\Http\Controllers\EmployeesController@index')->name('createEmployees');
+    Route::get('/createEmployees', 'App\Http\Controllers\EmployeesController@index')->name('createEmployees');
+    Route::get('/createEmployeesUsers', 'App\Http\Controllers\EmployeesController@create')->name('createEmployeesUsers');
 	//area
 	Route::get('/area', 'App\Http\Controllers\ControllerArea@index')->name('area');
 	Route::get('/area_create', 'App\Http\Controllers\ControllerArea@create')->name('area_create');
+
     //company
     Route::get('/company', 'App\Http\Controllers\CompanyController@index')->name('company');
 	Route::post('/company.update', 'App\Http\Controllers\CompanyController@update')->name('company');
-
+	//packages
+	Route::get('/packages', 'App\Http\Controllers\PackagesController@index')->name('packages.index');
+	Route::post('/packages', 'App\Http\Controllers\PackagesController@store')->name('packages.store');
 
 
 });

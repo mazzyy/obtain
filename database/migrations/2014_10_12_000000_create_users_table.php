@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
             // $table->bigInteger('company_id')->unsigned()->index()->nullable();
-            
+
         });
     }
 

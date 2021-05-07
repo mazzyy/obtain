@@ -19,7 +19,7 @@
 
                             <div class="col-8">
 
-                                <h3 class="pl-1 mb-0">Address</h3>
+                                <h3 class="pl-1 mb-0">Locations</h3>
                             </div>
                             <div class="col-4 text-right">
 
@@ -146,22 +146,22 @@
                   </div>
                   <form action="" method="get"  id="target" name="target">
 
-                {{-- country --}}
-                <div class="form-group mb-3">
-                  <div class="input-group input-group-alternative">
-                      <div class="input-group-prepend">
-                          <span class="input-group-text"><i class="fas fa-flag"></i></span>
-                      </div>
+                        {{-- country --}}
+                        <div class="form-group mb-3">
+                        <div class="input-group input-group-alternative">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-flag"></i></span>
+                            </div>
 
-                      <input class="form-control" placeholder="Country" type="text"  list="country" name="country" id="countryinput" autocomplete="off" />
-                        <datalist id="country">
+                            <input class="form-control" placeholder="Country" type="text"  list="country" name="country" id="countryinput" autocomplete="off" />
+                                <datalist id="country">
 
-                          @foreach ($locations as $location)
-                            <option>{{$location->country}}</option>
-                          @endforeach
-                        </datalist>
-                  </div>
-              </div>
+                                @foreach ($locations as $location)
+                                    <option>{{$location->country}}</option>
+                                @endforeach
+                                </datalist>
+                        </div>
+                    </div>
 
                               {{-- City --}}
                               <div class="form-group mb-3">
