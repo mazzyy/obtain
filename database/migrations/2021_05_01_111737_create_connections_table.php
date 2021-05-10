@@ -17,13 +17,15 @@ class CreateConnectionsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
-        
+
             $table->bigInteger('company_id')->unsigned()->index()->nullable();
+
             $table->foreign('company_id')->references('id')->on('companies');
-          
             $table->bigInteger('Sublocality')->unsigned()->index()->nullable();
-        
-            
+
+            $table->foreignId('users_id')->constrained('users');
+
+
             $table->string('address');
             $table->string('contact');
             $table->string('connectiontype');
@@ -40,7 +42,7 @@ class CreateConnectionsTable extends Migration
             $table->string('cablePackage');
             $table->integer('cablePrice');
             $table->integer('cablediscount');
-            
+
         });
     }
 

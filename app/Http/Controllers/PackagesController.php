@@ -10,9 +10,9 @@ class PackagesController extends Controller
 {
     public function index() {
 
-
+        $company_id=Auth::user()->companyid;
         return view("master.packages.packages", [
-            "packages" => Package::all()
+            "packages" => Package::where('company_id', $company_id)->get()
         ]);
     }
 

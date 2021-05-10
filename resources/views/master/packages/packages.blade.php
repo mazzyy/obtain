@@ -153,7 +153,7 @@
                                   <span class="input-group-text"><i class="fas fa-flag"></i></span>
                               </div> --}}
                                                         <input class="form-control" placeholder="Package name" type="text"
-                                                            name="pckg-name" required />
+                                                            name="pckg-name" required autocomplete="off" />
                                                     </div>
                                                 </div>
 
@@ -164,7 +164,7 @@
                                 <span class="input-group-text"><i class="fas fa-city"></i></span>
                             </div> --}}
                                                         <input class="form-control" placeholder="Package price" type="text"
-                                                            name="pckg-price" required />
+                                                            name="pckg-price" required  autocomplete="off"/>
                                                     </div>
                                                 </div>
 
@@ -178,7 +178,7 @@
                                                         <select name="pckg-type" class="form-control" required>
                                                             <option value="internet">Internet</option>
                                                             <option value="tv">TV</option>
-                                                            <option value="both">Both</option>
+                                                            {{-- <option value="both">Both</option> --}}
                                                         </select>
                                                     </div>
                                                 </div>

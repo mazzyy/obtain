@@ -35,6 +35,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('table-list', function () {return view('pages.tables');})->name('table');
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 
+    //createCustomers
+    Route::get('/createCustomersUsers', 'App\Http\Controllers\UserController@create')->name('createCustomersUsers');
 	//createEmployess
     Route::get('/createEmployees', 'App\Http\Controllers\EmployeesController@index')->name('createEmployees');
     Route::get('/createEmployeesUsers', 'App\Http\Controllers\EmployeesController@create')->name('createEmployeesUsers');
