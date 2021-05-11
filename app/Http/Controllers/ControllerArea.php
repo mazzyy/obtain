@@ -15,11 +15,10 @@ class ControllerArea extends Controller
         $companyid=Auth::user()->companyid;
 
         $locations = DB::table('locations')->where('company_id', '=', $companyid)->get();
+        $locationsGroupby = DB::table('locations')->where('company_id', '=', $companyid)->groupBy('country','city')->get();
 
 
-
-
-        return view('Area')->with('locations',$locations);
+        return view('Area')->with('locations',$locations)->with('locationsGroupby',$locationsGroupby);
     }
 
     public function create(Request $request){

@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     @include('layouts.headers.cards')
 
@@ -8,6 +7,11 @@
             font-size: 80%
         }
     </style>
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"/>
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css"/>
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/searchbuilder/1.0.1/css/searchBuilder.dataTables.min.css"/>
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.css"/>
+
     <div class="container-fluid mt--7">
         <div class="">
 
@@ -29,9 +33,9 @@
                             </div>
                             <div class="col-4 text-right">
 
-                                <button href=""  class=" mt-3 mb-3 mr-2 pr-3 btn btn-icon   btn-default btn-sm" type="button">
+                               <button href=""  class=" mt-3 mb-3 mr-2 pr-3 btn btn-icon   btn-default btn-sm" type="button"  data-toggle="modal" data-target="#modal-form">
                                     <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
-                                    <span class="btn-inner--text" data-toggle="modal" data-target="#modal-form">Add new Employee </span>
+                                    <span class="btn-inner--text" >Add new Employee </span>
                                 </button>
                             </div>
                         </div>
@@ -44,11 +48,15 @@
                       <table class="table align-items-center table-flush">
                                 <thead class="thead-light">
                                 <tr>
-                                    <th scope="col" class="sort" data-sort="name">Id</th>
+                                    <th scope="col" class="sort" data-sort="name">InternetID</th>
                                     <th scope="col" class="sort" data-sort="budget">Name</th>
-                                    <th scope="col" class="sort" data-sort="status">Email</th>
-
-                                    <th scope="col" class="sort" data-sort="Locality">Role</th>
+                                    <th scope="col" class="sort" data-sort="status">Address</th>
+                                    <th scope="col" class="sort" data-sort="Locality">Contact</th>
+                                    <th scope="col" class="sort" data-sort="Locality">Type</th>
+                                    <th scope="col" class="sort" data-sort="Locality">Install Date</th>
+                                    <th scope="col" class="sort" data-sort="Locality">Internet</th>
+                                    <th scope="col" class="sort" data-sort="Locality">Cable</th>
+                                    <th scope="col" class="sort" data-sort="Locality">Status</th>
                                     <th scope="col" class="sort" data-sort="Locality">Action</th>
 
                                 </tr>
@@ -60,7 +68,7 @@
                                         <th scope="row">
                                             <div class="media-body">
                                                 <i class="bg-warning"></i>
-                                            <span class="name mb-0 text-sm">  {{ $Customer->id}}</span>
+                                            <span class="name mb-0 text-sm" min="1" max="12">  {{ $Customer->connections->internetId}}</span>
                                             </div>
                                         </th>
                                         <td class="budget">
@@ -69,18 +77,34 @@
                                         <td>
                                         <span class="badge badge-dot mr-4">
 
-                                            <span class="status">{{ $Customer->email}}</span>
+                                            <span class="status">{{ $Customer->connections->address}}</span>
                                         </span>
                                         </td>
                                         <td>
                                             <span class="badge badge-dot mr-4">
 
                                             <span class="status">
-                                               Customers
+                                               {{$Customer->connections->contact}}
 
 
                                             </span>
                                             </span>
+                                        </td>
+                                        <td>
+                                            {{$Customer->connections->connectiontype}}
+                                        </td>
+                                        <td>
+                                            {{$Customer->connections->installDate}}
+                                        </td>
+                                        <td>
+                                            {{$Customer->connections->internetdiscont}}
+                                        </td>
+                                        <td>
+                                            {{$Customer->connections->cablediscount}}
+                                        </td>
+
+                                        <td>
+                                            {{$Customer->connections->status}}
                                         </td>
 
 
@@ -155,12 +179,12 @@
                     <div class="col-md-12">
 
                             <div class="form-row ">
-                                {{-- <div class="col-md-2">
+                                <div class="col-md-3">
                                     <div class="form-group ">
                                         <label>Internet ID</label>
-                                        <input type="text" class="form-control" id="txtNic" placeholder="Internet ID" maxlength="30">
+                                        <input type="text" class="form-control" id="txtNic" placeholder="Internet ID" maxlength="30" name="internetId">
                                     </div>
-                                </div> --}}
+                                </div>
                                 <div class="col-md-3">
                                     <div class="form-group ">
                                         <label>Sublocality</label>
@@ -176,20 +200,16 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group ">
                                         <label>Name</label>
                                         <input type="text" class="form-control" id="txtName" placeholder="Name" name="name" required>
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group ">
-                                        <label>Address</label>
-                                        <input type="text" class="form-control" id="txtAddress" placeholder="Address" name="address">
-                                    </div>
-                                </div>
+
                             </div>
+
                             <div class="row ">
 
                                 <div class="col-md-3">
@@ -204,16 +224,46 @@
                                         <input type="text" class="form-control" maxlength="11" id="txtPhone2" name="txtPhone2" placeholder="Phone2" required="" onkeypress="javascript:return checkNumber(event)">
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label>Address</label>
+                                        <input type="text" class="form-control" id="txtAddress" placeholder="Address" name="address" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row ">
+
+
                                 <div class="col-md-3">
                                     <div class="form-group ">
                                         <label>Installation amount</label>
-                                        <input type="text" maxlength="9" class="form-control" id="txtInstalAmount" name="installationAmount" placeholder="Amount" required="" onkeypress="javascript:return checkNumber(event)">
+                                        <input type="text" maxlength="9" class="form-control" id="txtInstalAmount" name="installationAmount"  required="" onkeypress="javascript:return checkNumber(event)">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group ">
                                         <label>Other Amount </label>
-                                        <input type="text" maxlength="9" class="form-control" id="txtOtherAmt" name="otherAmount" placeholder="Amount" required="" onkeypress="javascript:return checkNumber(event)">
+                                        <input type="text" maxlength="9" class="form-control" id="txtOtherAmt" name="otherAmount"  required="" onkeypress="javascript:return checkNumber(event)">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Wifi Amount</label>
+                                        <input class="form-control"  type="text" list="sublocality" name="wifiAmount" id="wifiAmount" autocomplete="off" onkeypress="javascript:return checkNumber(event)"/>
+                                        <datalist id="sublocality">
+                                            <option value="0"> Free</option>
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Wire Amount</label>
+
+                                        <input class="form-control"  type="text" list="sublocality" name="wireAmount" id="wireAmount" autocomplete="off" onkeypress="javascript:return checkNumber(event)"/>
+                                        <datalist id="sublocality">
+                                            <option value="0"> Free</option>
+                                        </datalist>
                                     </div>
                                 </div>
                             </div>
@@ -270,7 +320,7 @@
                                                 <select name="cmbPackage" id="cmbPackage" class="form-control" placeholder="package">
                                                     <option value="0">Select the Package </option>
                                                     @foreach ($cablePkg as $cblPkg )
-                                                    <option value="{{$cblPkg->id}}" >{{$cblPkg->package}} </option>
+                                                    <option value="{{$cblPkg->package}}-{{$cblPkg->price}}" >{{$cblPkg->package}} </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -291,7 +341,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group ">
                                                 <label>Discount </label>
-                                                <input name='txtAmount' type="text" maxlength="9" class="form-control" id="txtAmount" placeholder="Amount" required="" onkeypress="javascript:return checkNumber(event)" >
+                                                <input name='txtAmount' type="text" maxlength="9" class="form-control" id="txtAmount" placeholder="Amount" required="" onkeypress="javascript:return checkNumber(event)" value="0">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -300,7 +350,7 @@
                                                 <select name="cmbPackageint" id="cmbPackageint" class="form-control" placeholder="package">
                                                     <option value="0">Select the Package </option>
                                                     @foreach ($internetPkg as $intPkg )
-                                                    <option value="{{$intPkg->id}}" >{{$intPkg->package}} </option>
+                                                    <option value="{{$intPkg->package}}-{{$intPkg->price}}" >{{$intPkg->package}} </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -313,13 +363,13 @@
                                         <div class="col-md-4">
                                             <div class="form-group ">
                                                 <label>Discount </label>
-                                                <input type="text" maxlength="9" class="form-control" id="txtAmountint" placeholder="Amount" required="" onkeypress="javascript:return checkNumber(event)" >
+                                                <input name="txtAmountint" type="text" maxlength="9" class="form-control" id="txtAmountint" placeholder="Amount" required="" onkeypress="javascript:return checkNumber(event)"  value='0'>
                                             </div>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group ">
-                                                <label>Discount </label>
-                                                <input type="email" class="form-control" id="txtAmountint" placeholder="email" required name="email" >
+                                                <label>Email </label>
+                                                <input type="email" class="form-control" id="email" placeholder="email" required name="email" >
                                             </div>
                                         </div>
                                     </div>
@@ -393,6 +443,35 @@
          });
 
       </script>
+      <script>
+$('#cmbConType').on('change', function (e) {
+
+var selected=$( "#cmbConType option:selected" ).text();
+
+if(selected=='Internet'){
+
+    $( "#cmbPackage" ).prop( "disabled", true );
+    $( "#txtAmount" ).prop( "disabled", true );
+    $( "#cmbPackageint" ).prop( "disabled", false );
+    $( "#txtAmountint" ).prop( "disabled", false );
+}
+else if(selected=='TV Cable'){
+$( "#cmbPackage" ).prop( "disabled", false );
+    $( "#txtAmount" ).prop( "disabled", false );
+    $( "#cmbPackageint" ).prop( "disabled", true );
+    $( "#txtAmountint" ).prop( "disabled", true );
+}else{
+    $( "#cmbPackage" ).prop( "disabled", false );
+    $( "#txtAmount" ).prop( "disabled", false );
+    $( "#cmbPackageint" ).prop( "disabled", false );
+    $( "#txtAmountint" ).prop( "disabled", false );
+
+}
+
+});
+      </script>
+
+
 @endsection
 
 @push('js')

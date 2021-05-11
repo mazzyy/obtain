@@ -156,7 +156,7 @@
                             <input class="form-control" placeholder="Country" type="text"  list="country" name="country" id="countryinput" autocomplete="off" />
                                 <datalist id="country">
 
-                                @foreach ($locations as $location)
+                                @foreach ($locationsGroupby as $location)
                                     <option>{{$location->country}}</option>
                                 @endforeach
                                 </datalist>
@@ -173,7 +173,7 @@
                                     <input name="city" class="form-control" placeholder="City" type="text"  list="city" id="cityinput" autocomplete="off"/>
                                       <datalist id="city">
 
-                                      @foreach ($locations as $location)
+                                      @foreach ($locationsGroupby as $location)
                                         <option>{{$location->city}}</option>
                                       @endforeach
                                       </datalist>
@@ -190,7 +190,7 @@
                             <input  class="form-control" placeholder="locality" type="text"  list="locality" name="locality"  id="localityinput" autocomplete="off" />
                               <datalist id="locality">
 
-                              @foreach ($locations as $location)
+                              @foreach ($locationsGroupby as $location)
                                 <option>{{$location->locality}}</option>
                               @endforeach
                               </datalist>
@@ -210,7 +210,7 @@
 
                             <input class="form-control" placeholder="sublocality" type="text" list="sublocality" name="sublocality" id="sublocalityinput" autocomplete="off"/>
                               <datalist id="sublocality">
-                              @foreach ($locations as $location)
+                              @foreach ($locationsGroupby as $location)
                                 <option>{{$location->sublocality}}</option>
                               @endforeach
                               </datalist>

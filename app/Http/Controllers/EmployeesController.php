@@ -14,7 +14,7 @@ class EmployeesController extends Controller
 
     public function index(){
         $companyid=Auth::user()->companyid;
-        $Employees=User::where('role','1')->Where('companyid',$companyid)->orWhere('role','2')->Where('companyid',$companyid)->get();
+        $Employees=User::where('role','1')->Where('companyid',$companyid)->orWhere('role','2')->Where('companyid',$companyid)->orWhere('role','3')->Where('companyid',$companyid)->get();
 
 
     return view('users.createEmployees')->with('Employees',$Employees);

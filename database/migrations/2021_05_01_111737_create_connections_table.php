@@ -23,25 +23,28 @@ class CreateConnectionsTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies');
             $table->bigInteger('Sublocality')->unsigned()->index()->nullable();
 
-            $table->foreignId('users_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users');
 
-
+            $table->string('internetId');
             $table->string('address');
             $table->string('contact');
+            $table->string('contact2')->nullable();
             $table->string('connectiontype');
-            $table->date('installDate');
-            $table->date('Recharge Date');
+            $table->date('installDate')->nullable();
+            $table->date('rechargeDate');
             $table->integer('installationAmount');
-            $table->integer('otherAmount');
+            $table->integer('otherAmount')->nullable();
+            $table->integer('wifiAmount')->nullable();
+            $table->integer('wireAmount')->nullable();
             $table->string('status');
             $table->string('connectionProvider');
-            $table->string('Box Number');
-            $table->string('internetPackage');
-            $table->integer('internetPrice');
-            $table->integer('internetdiscont');
-            $table->string('cablePackage');
-            $table->integer('cablePrice');
-            $table->integer('cablediscount');
+            $table->string('boxNumber');
+            $table->string('internetPackage')->nullable();;
+            $table->integer('internetPrice')->nullable();;
+            $table->integer('internetdiscont')->nullable();;
+            $table->string('cablePackage')->nullable();;
+            $table->integer('cablePrice')->nullable();;
+            $table->integer('cablediscount')->nullable();;
 
         });
     }

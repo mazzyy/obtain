@@ -54,7 +54,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-         
+            'companyName' => ['required', 'string'],
+
         ]);
     }
 
@@ -66,7 +67,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-       
+
         // dd($id);
         // print_r($id);
 
@@ -75,17 +76,17 @@ class RegisterController extends Controller
         $company->companyName=$data['companyName'];
         $company->save();
         $id=company::where('companyName','=',$data["companyName"])->pluck('id')->last();
-        
+
 
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']), 
+            'password' => Hash::make($data['password']),
             'companyName' => $data['companyName'],
             'companyid' =>  $id,
             'role' => 1,
         ]);
 
-       
+
     }
 }
