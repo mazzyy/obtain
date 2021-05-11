@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +51,9 @@ Route::group(['middleware' => 'auth'], function () {
 	//packages
 	Route::get('/packages', 'App\Http\Controllers\PackagesController@index')->name('packages.index');
 	Route::post('/packages', 'App\Http\Controllers\PackagesController@store')->name('packages.store');
+
+    //Transactions
+    Route::get("/transactions/bills", [TransactionController::class, "billCreator"])->name("bills.index");
 
 
 });

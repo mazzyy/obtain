@@ -140,6 +140,24 @@
                         </ul>
                     </div>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="#navbar-transaction" data-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="navbar-master">
+                        <i class="ni ni-world" style="color: #f4645f;"></i>
+                        <span class="nav-link-text" style="color: #f4645f;">{{ __('Transactions') }}</span>
+                    </a>
+
+                    <div class="collapse show" id="navbar-transaction">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route("bills.index") }}">
+                                    {{ __('Bills creator') }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('area') }}">
                         <i class="ni ni-world-2"></i> {{ __('Locations') }}
