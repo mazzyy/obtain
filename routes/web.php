@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -38,7 +39,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     //createCustomers
     Route::get('/createCustomersUsers', 'App\Http\Controllers\UserController@create')->name('createCustomersUsers');
-	//createEmployess
+        //Excel import
+        Route::post("/import", [UserController::class, "import"])->name("import");
+
+
+    //createEmployess
     Route::get('/createEmployees', 'App\Http\Controllers\EmployeesController@index')->name('createEmployees');
     Route::get('/createEmployeesUsers', 'App\Http\Controllers\EmployeesController@create')->name('createEmployeesUsers');
 	//area
