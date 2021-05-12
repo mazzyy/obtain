@@ -15,11 +15,13 @@ class TransactionController extends Controller
 {
 
     public function index(){
+        $generatedbill="";
         $companyid=Auth::user()->companyid;
         $locations = DB::table('locations')->where('company_id', '=', $companyid)->get();
 
         return view("transactions.bills", [
-            "locations" => $locations
+            "locations" => $locations,
+            'generatedbill'=> $generatedbill
         ]);
     }
 
@@ -34,9 +36,9 @@ class TransactionController extends Controller
 
         // $data=connections::where('connectiontype',$billtype)->where('Sublocality',$sublocality)->where('company_id',$companyid)->get();
        if($sublocality!=0){
-        $customers = User::where('companyid', '=', $companyid)->where('role','3')->where('Sublocality',$sublocality)->join('connections', 'users.id', '=', 'connections.user_id')->get();
+        $customers = User::where('companyid', '=', $companyid)->where('role','3')->where('connectiontype',$billtype)->where('Sublocality',$sublocality)->join('connections', 'users.id', '=', 'connections.user_id')->get();
        }
-       $check=bill::where( 'companie_id',$companyid)->where('year',$year)->where('month',$month)->where('Sublocality',$sublocality)->exists();
+       $check=bill::where( 'companie_id',$companyid)->where('year',$year)->where('billType',$billtype)->where('month',$month)->where('Sublocality',$sublocality)->exists();
 
 
 
@@ -45,12 +47,12 @@ class TransactionController extends Controller
 
         }else if($sublocality==0){
 
-            $subId=location::get('id');
+            $subId=location::where('company_id', '=', $companyid)->get('id');
 
             foreach($subId as $id){
 
-                $customers = User::where('companyid', '=', $companyid)->where('role','3')->where('Sublocality',$sublocality)->join('connections', 'users.id', '=', 'connections.user_id')->get();
-dd($companyid);
+                $customers = User::where('companyid', '=', $companyid)->where('role','3')->where('connectiontype',$billtype)->where('Sublocality',$id['id'])->join('connections', 'users.id', '=', 'connections.user_id')->get();
+
             foreach($customers as $customer){
                 $bill = new bill();
                 $bill->year=$year;
@@ -61,13 +63,15 @@ dd($companyid);
                 $bill->receviedBy='';
                 $bill->user_id=$customer->id;
                 $bill->companie_id=$companyid;
-                $bill->sublocality=$sublocality;
+                $bill->sublocality=$id['id'];
                 $bill->billType=$billtype;
+                $bill->user_name=$customer->name;
+                $bill->internetId=$customer->internetId;
 
                 $bill->save();
                }
             }
-            return $subId;
+
         }else{
             foreach($customers as $customer){
                 $bill = new bill();
@@ -81,14 +85,18 @@ dd($companyid);
                 $bill->companie_id=$companyid;
                 $bill->sublocality=$sublocality;
                 $bill->billType=$billtype;
+                $bill->user_name=$customer->name;
+                $bill->internetId=$customer->internetId;
 
                 $bill->save();
         }
 
        }
-    //    bill::where( 'companie_id',$companyid)->where('year',$year)->where('month',$month)->get();
+       $generatedbill=bill::where( 'companie_id',$companyid)->where('year',$year)->where('month',$month)->join('Users', 'users.id', '=', 'bills.user_id')->get();
+       $locations = DB::table('locations')->where('company_id', '=', $companyid)->get();
 
-      return $check;
+
+      return view('transactions.bills')->with('generatedbill',$generatedbill)->with('locations',$locations);
     }
 
 }

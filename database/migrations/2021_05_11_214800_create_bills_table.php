@@ -23,9 +23,12 @@ class CreateBillsTable extends Migration
             $table->string('status');
             $table->string('receviedBy');
             $table->foreignId('user_id')->constrained('users');
+            $table->string('user_name');
             $table->string('companie_id');
             $table->string('billType');
             $table->string('sublocality');
+            $table->string('internetId');
+
 
         });
     }

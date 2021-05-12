@@ -38,12 +38,13 @@ class CreateConnectionsTable extends Migration
             $table->string('status');
             $table->string('connectionProvider');
             $table->string('boxNumber');
-            $table->string('internetPackage')->nullable();;
-            $table->integer('internetPrice')->nullable();;
-            $table->integer('internetdiscont')->nullable();;
-            $table->string('cablePackage')->nullable();;
-            $table->integer('cablePrice')->nullable();;
-            $table->integer('cablediscount')->nullable();;
+            $table->string('internetPackage')->nullable();
+            $table->integer('internetPrice')->nullable();
+            $table->integer('internetdiscont')->nullable();
+            $table->string('cablePackage')->nullable();
+            $table->integer('cablePrice')->nullable();
+            $table->integer('cablediscount')->nullable();
+
 
         });
     }
