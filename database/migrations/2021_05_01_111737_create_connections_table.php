@@ -19,12 +19,11 @@ class CreateConnectionsTable extends Migration
             $table->string('name');
 
             $table->bigInteger('company_id')->unsigned()->index()->nullable();
-
             $table->foreign('company_id')->references('id')->on('companies');
+
             $table->bigInteger('Sublocality')->unsigned()->index()->nullable();
 
             $table->foreignId('user_id')->constrained('users');
-
             $table->string('internetId');
             $table->string('address');
             $table->string('contact');

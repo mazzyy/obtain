@@ -192,7 +192,7 @@
 
 
                                         <select id="cmbSubLocality" class="form-control" name="Sublocality">
-                                            <option >Select SubLocality</option>
+
                                             @foreach ($location as $loc)
                                             <option value="{{$loc->id}}">{{ $loc->sublocality}}</option>
 

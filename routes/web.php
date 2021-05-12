@@ -53,7 +53,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/packages', 'App\Http\Controllers\PackagesController@store')->name('packages.store');
 
     //Transactions
-    Route::get("/transactions/bills", [TransactionController::class, "billCreator"])->name("bills.index");
+    Route::get("/transactions/bills", [TransactionController::class, "index"])->name("bills.index");
+    Route::get("/transactions/create", [TransactionController::class, "create"])->name("bills.create");
+
 
 
 });
