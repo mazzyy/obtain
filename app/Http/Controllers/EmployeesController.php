@@ -35,6 +35,6 @@ class EmployeesController extends Controller
           $user->companyName= $companyName;
           $user->save();
 
-          return '123';
+          return $user->name;
     }
 }

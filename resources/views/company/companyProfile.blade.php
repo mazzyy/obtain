@@ -5,7 +5,7 @@
         'title' => __('') . ' '.$company->companyName ,
         'description' => __('This is your company profile page. You can see information or update it'),
         'class' => 'col-lg-12'
-    ])   
+    ])
 
     <div class="container-fluid mt--7">
         <div class="row">
@@ -30,17 +30,63 @@
                         <div class="row">
                             <div class="col">
                                 <div class="card-profile-stats d-flex justify-content-center mt-md-5">
-                                    <div>
-                                        <span class="heading">200</span>
-                                        <span class="description">{{ __('Customers') }}</span>
+
+                                    @foreach ($groupBy as $user)
+                                    @if($user->role==1 )
+                                        <div class="pl-0">
+                                        <span class="heading">
+                                            {{$user->total}}
+                                        </span>
+                                            <span class="description">{{ __('Admin') }}</span>
+                                        </div>
+                                        @elseif ($user->role==2 )
+                                        <div class="pl-0">
+
+                                            <span class="heading">
+                                                {{$user->total}}
+                                            </span>
+                                                <span class="description">{{ __('Employee') }}</span>
+                                        </div>
+                                        @elseif ($user->role==3 )
+                                        <div class="pl-0">
+                                            <span class="heading">
+                                                {{$user->total}}
+                                            </span>
+                                                <span class="description">{{ __('Staff') }}</span>
+                                        </div>
+                                        @elseif ($user->role==4 )
+                                        <div class="pl-0">
+                                            <span class="heading">
+                                                {{$user->total}}
+                                            </span>
+                                                <span class="description">{{ __('Customer') }}</span>
+                                        </div>
+
+                                    @endif
+
+                                    @endforeach
+                                    {{-- <div>
+                                        <span class="heading">
+                                            {{$Admin}}
+                                        </span>
+                                        <span class="description">{{ __('Admin') }}</span>
                                     </div>
                                     <div>
-                                        <span class="heading">10</span>
+                                        <span class="heading">
+                                            {{$Employee}}
+                                        </span>
                                         <span class="description">{{ __('Employees') }}</span>
                                     </div>
-                                    {{-- <div>
-                                        <span class="heading">89</span>
-                                        <span class="description">{{ __('Comments') }}</span>
+                                    <div>
+                                        <span class="heading">
+                                            @if (isset($groubBy[2]->total))
+                                            {{$groubBy[2]->total}}
+                                            @else
+                                                0
+                                            @endif
+                                            {{$Staff}}
+                                        </span>
+                                        <span class="description">{{ __('Staff') }}</span>
                                     </div> --}}
                                 </div>
                             </div>
@@ -75,10 +121,10 @@
                     <div class="card-body">
                         <form method="post" action="company.update" >
                             @csrf
-                            
+
 
                             <h6 class="heading-small text-muted mb-4">{{ __('Company information') }}</h6>
-                            
+
                             <div class="pl-lg-4">
                                 {{-- hidden owner id --}}
                                 <div class="form-group" >
@@ -87,7 +133,7 @@
                                 {{-- Company name --}}
                                 <div class="form-group" >
                                     <label class="form-control-label" for="input-name">{{ __('Company name') }}</label>
-                                    <input type="text" name="companyName" id="companyName" class="form-control form-control-alternative" required autofocus value="{{$company->companyName}}" >
+                                <input type="text" name="companyName" id="companyName" class="form-control form-control-alternative"  autofocus value="{{$company->companyName}}" readonly>
                                 </div>
                                  {{-- address --}}
                                  <div class="form-group" >
@@ -146,7 +192,7 @@
                                 <div class="form-group{{ $errors->has('old_password') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-current-password">{{ __('Current Password') }}</label>
                                     <input type="password" name="old_password" id="input-current-password" class="form-control form-control-alternative{{ $errors->has('old_password') ? ' is-invalid' : '' }}" placeholder="{{ __('Current Password') }}" value="" required>
-                                    
+
                                     @if ($errors->has('old_password'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('old_password') }}</strong>
@@ -156,7 +202,7 @@
                                 <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
                                     <label class="form-control-label" for="input-password">{{ __('New Password') }}</label>
                                     <input type="password" name="password" id="input-password" class="form-control form-control-alternative{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('New Password') }}" value="" required>
-                                    
+
                                     @if ($errors->has('password'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('password') }}</strong>
@@ -177,7 +223,7 @@
                 </div>
             </div>
         </div>
-        
+
         @include('layouts.footers.auth')
     </div>
 @endsection

@@ -24,9 +24,9 @@
                             </div>
                             <div class="col-4 text-right">
 
-                                <button href=""  class=" mt-3 mb-3 mr-2 pr-3 btn btn-icon   btn-default btn-sm" type="button">
+                                <button href=""  class=" mt-3 mb-3 mr-2 pr-3 btn btn-icon   btn-default btn-sm" type="button" data-toggle="modal" data-target="#modal-form">
                                     <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
-                                    <span class="btn-inner--text" data-toggle="modal" data-target="#modal-form">Add new Employee </span>
+                                    <span class="btn-inner--text" >Add new Employee </span>
                                 </button>
                             </div>
                         </div>
@@ -79,6 +79,11 @@
                                             @if ($Employee->role=='2')
 
                                             Employee
+                                            @endif
+
+                                            @if ($Employee->role=='3')
+
+                                            Staff
                                             @endif
 
 
@@ -175,7 +180,7 @@
                                     <span class="input-group-text"><i class="fas fa-city"></i></span>
                                 </div>
 
-                                <input name="email" class="form-control" placeholder="Email" type="email"  list="city" id="cityinput" autocomplete="off"/>
+                                <input name="email" class="form-control" placeholder="Email" type="email"  list="city" id="cityinput" autocomplete="off" required/>
 
                             </div>
                         </div>
@@ -188,8 +193,8 @@
                         </div>
 
 
-                        <select name='role' class="form-control" aria-label="Default select example">
-                            <option selected>Role</option>
+                        <select name='role' class="form-control" aria-label="Default select example" required>
+                            <option value="" selected>Role</option>
                             <option value="1">Admin</option>
                             <option value="2">Employee</option>
                             <option value="3">Staff</option>
@@ -208,7 +213,7 @@
                             <span class="input-group-text"><i class="fas fa-building"></i></span>
                         </div>
 
-                        <input class="form-control" placeholder="Password" type="password"  name="password" id="password" autocomplete="off"/>
+                        <input class="form-control" placeholder="Password" type="password"  name="password" id="password"  required/>
 
                     </div>
                 </div>
@@ -256,12 +261,16 @@
       $('#ajaxrefresh').load(' #table');
          console.log(results);
          console.log(data);
-
+         $(".header-body").append('<div  class="popup alert alert-default" role="alert"><span class="alert-inner--icon"><i class="ni ni-like-2"></i></span><span class="alert-inner--text"><strong>'+results+'</strong> created successfully</span></div>');
 
       }
 
-    }); // end ajax
 
+    }); // end ajax
+         //time for popup div
+        setTimeout(function(){
+        $('.popup').remove();
+        }, 5000);
          });
 
       </script>

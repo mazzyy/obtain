@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\company;
-
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+
 class CompanyController extends Controller
+
 {
     /**
      * Display a listing of the resource.
@@ -15,18 +19,29 @@ class CompanyController extends Controller
      */
     public function index()
     {
+        // SELECT count('role'), `role` FROM `users` WHERE `companyid` = 1 GROUP BY `role`;
+
         $companyid=Auth::user()->companyid;
- 
+        // $groubBy=0;
+
+
+        $groupBy=User::select('role', DB::raw('count(*) as total'))->where('companyid',$companyid)->groupBy('role')->get();
+
+
+
         $company=company::where('id','=',$companyid);
 
         if($company){
             $company=$company->get();
         }else{
-           
+
         }
         // dd($company[0]);
     //    return view('company.companyProfile')->with('company',$company[0]);
-       return view('company.companyProfile')->with('company',$company[0]);
+       return view('company.companyProfile')->with('company',$company[0])
+                                            ->with('groupBy',$groupBy);
+
+
     }
 
     /**
@@ -93,23 +108,23 @@ class CompanyController extends Controller
         $phone2=$request->input('phone2');
         $email=$request->input('email');
         $description=$request->input('description');
-        
+
         $companyid=Auth::user()->companyid;
- 
-        
+
+
         if(company::where('id','=',$companyid)->exists()){
-           
+
             //update
             $company=company::where('id','=',$companyid)->update(['companyName'=>$name,'address'=>$address,'phone1'=>$phone,'phone2'=>$phone2,'email'=>$email,'ownerid'=>$ownerid,'description'=>$description]);
             // $company=company::where('id','=',$companyid)->get();
-           
-        
+
+
         }
-      
+
         $company=company::where('id','=',$companyid)->get()->all();
         // $company=company::find($companyid);
         //  return dd($company);
-        return redirect('company')->with('company',$company[0]);  
+        return redirect('company')->with('company',$company[0]);
     }
 
     /**

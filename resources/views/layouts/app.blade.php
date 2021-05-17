@@ -10,16 +10,16 @@
         <title>{{ config('app.name', 'Dashboard') }}</title>
         <!-- Favicon -->
         <link href="{{ asset('argon') }}/img/brand/favicon.png" rel="icon" type="image/png">
+        <link href="{{ asset('css/app.css') }}" rel="icon" type="image/png">
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
         <!-- Extra details for Live View on GitHub Pages -->
         {{-- <script src="{{asset('js/jquery.min.js')}}"></script> --}}
         {{-- jquery --}}
         <script
-
-  src="https://code.jquery.com/jquery-3.6.0.min.js"
-  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-  crossorigin="anonymous"></script>
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
 
    {{-- jquery datatabe --}}
 
@@ -32,6 +32,10 @@
     </head>
 <style>
 
+table{
+    width: 100%;
+    font-size:5ch !important ;
+}
 </style>
     <body class="{{ $class ?? '' }}">
         @auth()
@@ -49,6 +53,8 @@
         @guest()
             @include('layouts.footers.guest')
         @endguest
+
+
 
         <script src="{{ asset('argon') }}/vendor/jquery/dist/jquery.min.js"></script>
         <script src="{{ asset('argon') }}/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

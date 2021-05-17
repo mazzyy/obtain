@@ -27,7 +27,7 @@ class UserController extends Controller
     public function index(User $model)
     {
         $companyid = Auth::user()->companyid;
-        $Customers = User::where('role', '3')->Where('companyid', $companyid)->get();
+        $Customers = User::where('role', '4')->Where('companyid', $companyid)->get();
         $location = location::where('company_id', $companyid)->get();
         $internetPkg = Package::where('company_id', $companyid)->where('type', 'internet')->get();
         $cablePkg = Package::where('company_id', $companyid)->where('type', 'tv')->get();
@@ -53,7 +53,7 @@ class UserController extends Controller
             $user->name = $request->input('name');
             $user->email = $request->input('email');
             $user->password = Hash::make($request->input('internetId'));
-            $user->role = 3;
+            $user->role = 4;
             $user->companyid = $companyid;
             $user->companyName = $companyName;
             $user->save();

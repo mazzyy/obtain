@@ -2,6 +2,13 @@
     <div class="container-fluid">
         <div class="header-body">
             @yield('topsection')
+
+            <div class="col-md-12 {{ $class ?? '' }}">
+                {{-- <h1 class="display-2 text-white">{{ $title }}</h1> --}}
+                @if (isset($description) && $description)
+                    <p class="text-white mt-0 ">{{ $description }}</p>
+                @endif
+            </div>
             <!-- Card stats -->
             {{-- <div class="row">
                 <div class="col-xl-3 col-lg-6">

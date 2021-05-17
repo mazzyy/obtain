@@ -1,4 +1,13 @@
-<nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
+{{-- <script>
+$(document).ready(function () {
+    $.each($('#navbar').find('li'), function() {
+        $(this).toggleClass('active',
+            '/' + $(this).find('a').attr('href') == window.location.pathname);
+    });
+});
+     </script> --}}
+
+<nav  data-spy="scroll" data-target="spy-scroll-id" class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white"  id="sidenav-main" >
     <div class="container-fluid">
         <!-- Toggler -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidenav-collapse-main"
@@ -50,6 +59,7 @@
             </li>
         </ul>
         <!-- Collapse -->
+
         <div class="collapse navbar-collapse" id="sidenav-collapse-main">
             <!-- Collapse header -->
             <div class="navbar-collapse-header d-md-none">
@@ -89,13 +99,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="#navbar-examples" data-toggle="collapse" role="button"
+                    <a class="nav-link active collapsed" href="#navbar-examples" data-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="navbar-examples">
                         <i class="fab fa-laravel" style="color: #f4645f;"></i>
                         <span class="nav-link-text" style="color: #f4645f;">{{ __('User Management') }}</span>
                     </a>
 
-                    <div class="collapse show" id="navbar-examples">
+                    <div class="collapse " id="navbar-examples">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('createEmployees') }}">
@@ -119,36 +129,36 @@
 
                 {{-- Master --}}
                 <li class="nav-item">
-                    <a class="nav-link active" href="#navbar-master" data-toggle="collapse" role="button"
+                    <a class="nav-link active collapsed" href="#navbar-master" data-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="navbar-master">
                         <i class="ni ni-world" style="color: #f4645f;"></i>
                         <span class="nav-link-text" style="color: #f4645f;">{{ __('Master') }}</span>
                     </a>
 
-                    <div class="collapse show" id="navbar-master">
+                    <div class="collapse " id="navbar-master">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('packages.index') }}">
                                     {{ __('Packages') }}
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a class="nav-link" href="{{ route('user.index') }}">
                                     {{ __('Add Customers') }}
                                 </a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link active" href="#navbar-transaction" data-toggle="collapse" role="button"
+                    <a class="nav-link active collapsed" href="#navbar-transaction" data-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="navbar-master">
                         <i class="ni ni-world" style="color: #f4645f;"></i>
                         <span class="nav-link-text" style="color: #f4645f;">{{ __('Transactions') }}</span>
                     </a>
 
-                    <div class="collapse show" id="navbar-transaction">
+                    <div class="collapse " id="navbar-transaction">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route("bills.index") }}">
@@ -169,22 +179,22 @@
                     </a>
                 </li>
 
-                <li class="nav-item ">
+                {{-- <li class="nav-item ">
                     <a class="nav-link" href="{{ route('map') }}">
                         <i class="ni ni-pin-3 text-orange"></i> {{ __('Maps') }}
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('table') }}">
                         <i class="ni ni-bullet-list-67 text-default"></i>
                         <span class="nav-link-text">Tables</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="ni ni-circle-08 text-pink"></i> {{ __('Register') }}
                     </a>
-                </li>
+                </li> --}}
                 {{-- <li class="nav-item mb-5 mr-4 ml-4 pl-1 bg-danger" style="position: absolute; bottom: 0;">
                     <a class="nav-link text-white" href="https://www.creative-tim.com/product/argon-dashboard-pro-laravel" target="_blank">
                         <i class="ni ni-cloud-download-95"></i> Upgrade to PRO

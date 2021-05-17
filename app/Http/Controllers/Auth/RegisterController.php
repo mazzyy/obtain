@@ -87,6 +87,16 @@ class RegisterController extends Controller
             'role' => 1,
         ]);
 
+        $user =new User([
+            'name' =>    $data['name'],
+            'email' =>   $data['email'],
+            'password' => Hash::make($data['password']),
+             'role' =>   1,
+            'companyName' => $data['companyName'],
+            'companyid' => $company->id,
+        ]);
+        $user->save();
+
 
     }
 }

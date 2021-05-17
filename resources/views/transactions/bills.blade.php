@@ -2,23 +2,43 @@
 {{-- {{ dd($locations[1]) }} --}}
 
 @section('content')
-    @include('layouts.headers.cards')
+   @include('layouts.headers.cards', [
+        // 'title' => __('') . ' '.'Important!',
+        'description' => __('If a bill has already been created for a customer on the same date, it will simply open and it will not be created again.'),
+        'class' => 'col-lg-12'
+    ])
 
+
+<style>
+    .card .table td,
+    .card .table th
+{
+    padding-right: 0;
+    padding-left: 0;
+}
+
+</style>
 
     <div class="mt-2 px-2 ">
         <div class="card-block">
-            <div class="mrg-top-20">
-                <div class="row">
+            <div class="container-fluid mt--7 mrg-top-20">
+                <div class="row ">
                     <div class="col-md-12 ml-auto mr-auto">
-                    <form action="{{route('bills.create')}}" method="get">
-                            <div class="row">
-                                <div class="col-md-10">
-                                    <div class="row">
+                    {{-- @if(isset($message))
+                        <div class=" popup alert alert-success">
+                            {{ $message }}
+                        </div>
+                    @endif --}}
+                    <form action="{{route('bills.create')}}" method="POST">
+                        @csrf
+                            <div class="row bg-gradient-default shadow rounded text-white">
+                                <div class="col-md-9">
+                                    <div class="row pt-1">
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Month</label>
-                                                <select name="month" class="form-control ">
-                                                    <option value="0" disabled="" selected="">Select Month</option>
+                                                <select name="month" class="form-control" required >
+                                                    <option value="" selected="">Select Month</option>
                                                     <option value="January">January</option>
                                                     <option value="Feburay">Feburay</option>
                                                     <option value="March">March</option>
@@ -37,8 +57,8 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Year</label>
-                                                <select name="year" class="form-control">
-                                                    <option value="0" disabled="" selected="">Select Year</option>
+                                                <select name="year" class="form-control" required>
+                                                    <option  value="" disabled="" selected="" >Select Year</option>
                                                     <option value="2021">2021</option>
                                                     <option value="2022">2022</option>
                                                     <option value="2023">2023</option>
@@ -53,8 +73,8 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Bills Type</label>
-                                                <select name="bill-type" class="form-control">
-                                                    <option value="0" disabled="" selected="">Select Type</option>
+                                                <select name="bill-type" class="form-control"required>
+                                                    <option value="" disabled="" selected="" >Select Type</option>
                                                     <option value="Both">Both</option>
                                                     <option value="Cable">Cable</option>
                                                     <option value="Internet">Internet</option>
@@ -64,28 +84,31 @@
                                         <div class="col-md-3">
                                             <div class="form-group ">
                                                 <label>Sublocality</label>
-                                                <select name="sublocality" class="form-control" >
+                                                <select name="sublocality" class="form-control"  required>
                                                     <option value="0">All</option>
                                                     @foreach ($locations as $location)
-                                                        <option value="{{ $location->id }}">{{ $location->sublocality }}</option>
+                                                        <option value="{{ $location->id }}-{{ $location->sublocality }}">{{ $location->sublocality }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <div class="row">
-                                        <div class="col-md-6">
+                                <div class="col-md-3">
+                                    <div class="row pt-3">
+                                        <div class="col-md-6 m-0 p-0">
                                             <label> </label>
-                                            <div class="text-right mrg-top-5">
-                                                <button id="btnCreate" class="btn btn-info">Create</button>
+                                            <div class=" text-right mrg-top-5">
+
+                                                <button style=" margin-top:-0.3ch; word-wrap: break-word;" name="action" value="create" id="btnCreate" class=" pl-2 pr-2 btn btn-primary w-100"><i class=" pl-0 pr-0 fas fa-plus-square  fa-w-14 fa-1x"></i>Create <br></button>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+
+                                        <div class="col-md-6  m-0 p-0">
                                             <label> </label>
-                                            <div class="text-right mrg-top-5">
-                                                <button id="btnDelete" class="btn btn-danger">Delete</button>
+                                            <div class=" text-right mrg-top-5">
+                                                <button style="margin-top:-0.3ch;   word-wrap: break-word;"  name="action" value="delete" id="btnDelete" class=" pl-2 pr-2 btn btn-danger mb-3 w-100"  ><i class="pl-0 pr-0 fas fa-trash-alt  fa-w-14 fa-1x "></i>  &nbspDelete</button>
+
                                             </div>
                                         </div>
                                     </div>
@@ -101,25 +124,34 @@
 <div class="mt-5 px-2">
 <div class="container-fluid mt--6">
       <div class="row">
-        <div class="col">
+        <div class="col p-0 m-0 pt-3">
           <div class="card">
             <!-- Card header -->
             <div class="card-header border-0">
-              <h3 class="mb-0">Light table</h3>
+            {{-- <h3 class="mb-0">Bill Generated      @if($generatedbill) on <small>{{$generatedbill[0]->created_at}}</small> @endif</h3> --}}
+            @if($generatedbill)
+                <span>
+
+                <h3 class="mb-0 ">Bill Generated  <a title="Download bill in excel file" href="excel?year={{$generatedbill[0]->year}}&amp;mth={{$generatedbill[0]->month}}&amp;btn-fetch=" rel="noopener" target="_blank" style="float:right" class="  btn btn-success h-50 text-success btn-sm text-white" ><i class="far fa-file-excel"></i></a></h3>
+                <div class="tooltip">Hover over me
+                    <span class="tooltiptext">Tooltip text</span>
+                  </div>
             </div>
             <!-- Light table -->
             <div class="table-responsive">
-              <table class="table align-items-center table-flush">
+              <table id="table" class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
 
-                    <th scope="col">CustID</th>
-                    <th scope="col">Name</th>
+                    <th scope="col pl-1 ml-1">CustID</th>
+                    <th scope="col pl-5">Name</th>
                     <th scope="col">Internet Id</th>
+                    <th scope="col">Sublocality</th>
                     <th scope="col">Address</th>
                     <th scope="col">Month/Year</th>
                     <th scope="col">Collection Type</th>
                     <th scope="col">Net Amount</th>
+                    <th scope="col">recevied</th>
                     <th scope="col">Status</th>
                     <th scope="col">Action</th>
 
@@ -129,42 +161,67 @@
                 </thead>
                 <tbody class="list">
 <tr>
-    @if($generatedbill)
-         @foreach ($generatedbill as $location)
+
+         @foreach ($generatedbill as $perUser)
             <tr id="rowinput" >
                     <th scope="row">
                         <div class="media-body">
                             <i class="bg-warning"></i>
-                        <span class="name mb-0 text-sm">  {{ $location->id}}</span>
+                        <span class="name mb-0 text-sm pl-2">  {{ $perUser->id}}</span>
                         </div>
                     </th>
                     <td class="budget">
-                    {{ $location->name}}
+                    {{ $perUser->name}}
                     </td>
                     <td>
                     <span class="badge badge-dot mr-4">
 
-                        <span class="status">{{ $location->internetId}}</span>
+                        <span class="status">{{ $perUser->internetId}}</span>
                     </span>
                     </td>
+                    <td>
 
+                        {{ $perUser->sublocalityName}}
+                    </td>
 
                     <td>
 
-                        {{ $location->address}}
+                        {{ $perUser->address}}
                     </td>
                     <td>
 
-                        <span class="completion mr-2"> {{ $location->month}}-{{ $location->year}}</span>
+                        <span class="completion mr-2"> {{ $perUser->month}}-{{ $perUser->year}}</span>
 
                     </td>
+                    <td>
+
+                        <span class="completion mr-2"> {{ $perUser->connectiontype}}</span>
+
+                    </td>
+                    <td>
+
+                        <span class="completion mr-2"> {{ $perUser->netAmount}}</span>
+
+                    </td>
+                    <td>
+
+                        <span class="completion mr-2"> {{ $perUser->recevieAmount}}</span>
+
+                    </td>
+                    <td>
+
+                        <span class="completion mr-2"> {{ $perUser->billStatus}}</span>
+
+                    </td>
+
+
                     <td class="text-right">
                     <div class="dropdown">
                         <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-ellipsis-v"></i>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                        <a class="dropdown-item" href="#">Edit</a>
+                        <div class=" dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                        <a class=" dropdown-item" href="#">Edit</a>
                         <a class="dropdown-item" href="#">Delete</a>
                         {{-- <a class="dropdown-item" href="#">Something else here</a> --}}
                         </div>
@@ -172,12 +229,14 @@
                     </td>
             </tr>
         @endforeach
-    @endif
+
 
 </tr>
                 </tbody>
               </table>
+              @endif
             </div>
+
             <!-- Card footer -->
             <div class="card-footer py-4 pt-5 mt-5">
               <nav aria-label="...">
@@ -240,7 +299,25 @@
       </footer>
     </div>
 </div>
+<script >
 
+//time for popup dive
+    // setTimeout(function(){
+    // $('.popup').remove();
+    // }, 10000);
+    // fitText(document.querySelector("action"), 0.38);
+</script>
+{{-- excel file cdn and function --}}
+{{-- <script src=
+"//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js">
+</script>
+<script>
 
+       $(".table").table2excel({
+           filename: "attendanceSheet.xls"
+       });
 
+   </script> --}}
+{{-- end of excel file cdn and function --}}
 @endsection
+

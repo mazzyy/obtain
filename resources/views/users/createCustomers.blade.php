@@ -6,6 +6,12 @@
         label {
             font-size: 80%
         }
+.card .table td,
+.card .table th
+{
+    padding-right: 0rem !important;
+    padding-left: 0.2rem !important;
+}
 
     </style>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
@@ -18,7 +24,7 @@
         <div class="">
 
             <div class="">
-                <div class="col-12 ">
+                <div class="col-12 p-0 m-0">
 
                     <div class="card">
 
@@ -31,7 +37,7 @@
 
                                 <div class="col-7">
 
-                                    <h3 class="pl-1 mb-0">New Customers</h3>
+                                    <h3 class="pl-1 mb-0">Customers</h3>
                                 </div>
                                 <div class="col-5 text-right">
 
@@ -56,7 +62,7 @@
                                     <table class="table align-items-center table-flush">
                                         <thead class="thead-light">
                                             <tr>
-                                                <th scope="col" class="sort" data-sort="name">InternetID</th>
+                                                <th scope="col" class="sort " data-sort="name">InternetID</th>
                                                 <th scope="col" class="sort" data-sort="budget">Name</th>
                                                 <th scope="col" class="sort" data-sort="status">Address</th>
                                                 <th scope="col" class="sort" data-sort="Locality">Contact</th>
@@ -197,7 +203,7 @@
                                                             <div class="form-group ">
                                                                 <label>Internet ID</label>
                                                                 <input type="text" class="form-control" id="txtNic"
-                                                                    placeholder="Internet ID" maxlength="30"
+                                                                    placeholder="Internet ID" maxlength="15"
                                                                     name="internetId">
                                                             </div>
                                                         </div>
@@ -263,7 +269,7 @@
                                                         <div class="col-md-3">
                                                             <div class="form-group ">
                                                                 <label>Installation amount</label>
-                                                                <input type="text" maxlength="9" class="form-control"
+                                                                <input type="number" maxlength="9" class="form-control"
                                                                     id="txtInstalAmount" name="installationAmount"
                                                                     required=""
                                                                     onkeypress="javascript:return checkNumber(event)">
@@ -272,7 +278,7 @@
                                                         <div class="col-md-3">
                                                             <div class="form-group ">
                                                                 <label>Other Amount </label>
-                                                                <input type="text" maxlength="9" class="form-control"
+                                                                <input type="number" maxlength="9" class="form-control"
                                                                     id="txtOtherAmt" name="otherAmount" required=""
                                                                     onkeypress="javascript:return checkNumber(event)">
                                                             </div>
@@ -280,7 +286,7 @@
                                                         <div class="col-md-3">
                                                             <div class="form-group">
                                                                 <label>Wifi Amount</label>
-                                                                <input class="form-control" type="text" list="sublocality"
+                                                                <input class="form-control" type="number" list="sublocality"
                                                                     name="wifiAmount" id="wifiAmount" autocomplete="off"
                                                                     onkeypress="javascript:return checkNumber(event)" />
                                                                 <datalist id="sublocality">
@@ -292,7 +298,7 @@
                                                             <div class="form-group">
                                                                 <label>Wire Amount</label>
 
-                                                                <input class="form-control" type="text" list="sublocality"
+                                                                <input class="form-control" type="number" list="sublocality"
                                                                     name="wireAmount" id="wireAmount" autocomplete="off"
                                                                     onkeypress="javascript:return checkNumber(event)" />
                                                                 <datalist id="sublocality">
@@ -417,7 +423,7 @@
                                                                 <div class="col-md-4">
                                                                     <div class="form-group ">
                                                                         <label>Discount </label>
-                                                                        <input name='txtAmount' type="text" maxlength="9"
+                                                                        <input name='txtAmount' type="number" maxlength="9"
                                                                             class="form-control" id="txtAmount"
                                                                             placeholder="Amount" required=""
                                                                             onkeypress="javascript:return checkNumber(event)"
@@ -446,7 +452,7 @@
                                                                 <div class="col-md-4">
                                                                     <div class="form-group ">
                                                                         <label>Discount </label>
-                                                                        <input name="txtAmountint" type="text" maxlength="9"
+                                                                        <input name="txtAmountint" type="number" maxlength="9"
                                                                             class="form-control" id="txtAmountint"
                                                                             placeholder="Amount" required=""
                                                                             onkeypress="javascript:return checkNumber(event)"
@@ -546,7 +552,7 @@
         <script>
             function checkNumber(evt) {
                 var iKeyCode = (evt.which) ? evt.which : evt.keyCode
-                if (iKeyCode < 48 || iKeyCode > 57) {
+                if (iKeyCode < 48 || iKeyCode > 57 ) {
                     return false;
                 } else {
                     return true;
@@ -572,12 +578,15 @@
                         $('#ajaxrefresh').load(' #table');
                         console.log(results);
                         console.log(data);
-
+ $(".header-body").append('<div  class="popup alert alert-default" role="alert"><span class="alert-inner--icon"><i class="ni ni-like-2"></i></span><span class="alert-inner--text"><strong>'+results+'</strong> created successfully</span></div>');
 
                     }
 
                 }); // end ajax
-
+                //time for popup dive
+                    setTimeout(function(){
+                    $('.popup').remove();
+                    }, 5000);
             });
 
         </script>
@@ -592,12 +601,17 @@
                     $("#txtAmount").prop("disabled", true);
                     $("#cmbPackageint").prop("disabled", false);
                     $("#txtAmountint").prop("disabled", false);
+                    $("#cmbPackage").value="0"
+                    $("#txtAmount").value="0"
                 } else if (selected == 'TV Cable') {
                     $("#cmbPackage").prop("disabled", false);
                     $("#txtAmount").prop("disabled", false);
                     $("#cmbPackageint").prop("disabled", true);
                     $("#txtAmountint").prop("disabled", true);
+                    $("#cmbPackageint").value="0";
+                    $("#txtAmountint").value="0";
                 } else {
+
                     $("#cmbPackage").prop("disabled", false);
                     $("#txtAmount").prop("disabled", false);
                     $("#cmbPackageint").prop("disabled", false);
