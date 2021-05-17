@@ -46,14 +46,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
 
     //createCustomers
-    Route::get('/createCustomersUsers', 'App\Http\Controllers\UserController@create')->name('createCustomersUsers');
+    Route::post('/createCustomersUsers', 'App\Http\Controllers\UserController@create')->name('createCustomersUsers');
     //Excel import
     Route::post("/import", [UserController::class, "import"])->name("import");
 
 
     //createEmployess
     Route::get('/createEmployees', 'App\Http\Controllers\EmployeesController@index')->name('createEmployees');
-    Route::get('/createEmployeesUsers', 'App\Http\Controllers\EmployeesController@create')->name('createEmployeesUsers');
+    Route::post('/createEmployeesUsers', 'App\Http\Controllers\EmployeesController@create')->name('createEmployeesUsers');
     //area
     Route::get('/area', 'App\Http\Controllers\ControllerArea@index')->name('area');
     Route::get('/area_create', 'App\Http\Controllers\ControllerArea@create')->name('area_create');
