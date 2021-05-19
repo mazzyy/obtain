@@ -173,23 +173,23 @@ $(document).ready(function () {
                         <i class="ni ni-world-2"></i> {{ __('Locations') }}
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('icons') }}">
                         <i class="ni ni-planet text-blue"></i> {{ __('Icons') }}
                     </a>
-                </li>
+                </li> --}}
 
                 {{-- <li class="nav-item ">
                     <a class="nav-link" href="{{ route('map') }}">
                         <i class="ni ni-pin-3 text-orange"></i> {{ __('Maps') }}
                     </a>
                 </li> --}}
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('table') }}">
                         <i class="ni ni-bullet-list-67 text-default"></i>
                         <span class="nav-link-text">Tables</span>
                     </a>
-                </li>
+                </li> --}}
                 {{-- <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="ni ni-circle-08 text-pink"></i> {{ __('Register') }}
@@ -206,7 +206,7 @@ $(document).ready(function () {
             <!-- Heading -->
             <h6 class="navbar-heading text-muted">Documentation</h6>
             <!-- Navigation -->
-            <ul class="navbar-nav mb-md-3">
+            {{-- <ul class="navbar-nav mb-md-3">
                 <li class="nav-item">
                     <a class="nav-link"
                         href="https://argon-dashboard-laravel.creative-tim.com/docs/getting-started/overview.html">
@@ -225,7 +225,7 @@ $(document).ready(function () {
                         <i class="ni ni-ui-04"></i> Components
                     </a>
                 </li>
-            </ul>
+            </ul> --}}
         </div>
     </div>
 </nav>

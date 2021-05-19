@@ -28,7 +28,7 @@ class TransactionController extends Controller
 
 
     public function create(Request $request){
-        // DB::enableQueryLog();
+        DB::enableQueryLog();
         $month=$request->input('month');
         $year=$request->input('year');
         $billtype=$request->input('bill-type');
@@ -51,11 +51,12 @@ class TransactionController extends Controller
             $generatedbill=null;
             $message="The ".$billtype." bill for ".$year."-".$month." of ".$sublocalityName. " has been removed";
             return view('transactions.bills')->with('locations',$locations)->with('generatedbill',$generatedbill)->with('message',  $message);
+
         }
 
-if($sublocality!=0){
- list($sublocality,$sublocalityName)=explode('-',$sublocality);
-}
+        if($sublocality!=0){
+        list($sublocality,$sublocalityName)=explode('-',$sublocality);
+        }
 
         // $data=connections::where('connectiontype',$billtype)->where('Sublocality',$sublocality)->where('company_id',$companyid)->get();
        if($sublocality!=0){
@@ -63,9 +64,8 @@ if($sublocality!=0){
         // dd($customers);
 
         }
-            $check=bill::where( 'companie_id',$companyid)->where('year',$year)->where('billType',$billtype)->where('month',$month)->where('Sublocality',$sublocality)->exists();
 
-
+        $check=bill::where( 'companie_id',$companyid)->where('year',$year)->where('billType',$billtype)->where('month',$month)->where('Sublocality',$sublocality)->exists();
 
 
         if($check){

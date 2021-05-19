@@ -24,11 +24,99 @@
             <div class="container-fluid mt--7 mrg-top-20">
                 <div class="row ">
                     <div class="col-md-12 ml-auto mr-auto">
-                    {{-- @if(isset($message))
-                        <div class=" popup alert alert-success">
-                            {{ $message }}
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="row">
+                                    <div class="col-lg-7">
+                                        <div class="form-group ">
+                                            <div class="card-heading">
+                                                <h4 class="card-title">User Collections</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group ">
+                                            <input id="idName" class="form-control mrg-top-10" onkeypress="javascript:return isNumber(event)" type="text" style="border:solid 1px;" autocomplete="off" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class=" mrg-top-10"></div>
+                                        <div class="form-group ">
+                                            <button id="btnSearchID" type="submit" class="btn btn-info">Search</button>
+                                            <button id="btnSearch" class="btn btn-info " type="submit" data-toggle="modal" data-target="#modal-searching">Find</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-block">
+                                    <div class="table-overflow">
+                                        <table class="table table-sm table-hover table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>CustID</th>
+                                                    <th>Name</th>
+                                                    <th>Internet Id</th>
+                                                    <th>Address</th>
+                                                    <th>Month/Year</th>
+                                                    <th>Payment Type</th>
+                                                    <th>Collection Type</th>
+                                                    <th>Net Amount</th>
+                                                    <th>Balance</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="fcol"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top:-30px;">
+                                    <div class="col-lg-6 mrg-right-70">
+                                        <div class="card-heading  ">
+                                            <h4 class="card-title"></h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 text-right">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <button id="btnpop" type="button" class="btn btn-raised btn-success"><i class="fa fa-check"></i> Receiving</button>
+                                                        <button hidden="" data-toggle="modal" data-target="#modal-receiving" data-original-title="" id="btnpop2" type="button" class="btn btn-raised btn-success disabled"><i class="fa fa-check"></i> Receiving</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <input style="border:solid 1px;" readonly="" type="text" id="amtrd" class="form-control" value="0">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <button id="btnrcvd" type="button" class="btn btn-raised btn-info"><i class="fa fa-plus "></i> New Amount</button>
+                                                        <button hidden="" id="btnrcvd2" data-toggle="modal" data-target="#modal-lg" data-original-title="" title="" type="button" class="btn btn-raised btn-info"><i class="fa fa-plus "></i> New Amount</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <div class="dropdown inline-block">
+                                                            <button class="btn btn-info btn-raised dropdown-toggle" type="button" data-toggle="dropdown"><span>Rports</span><i class="ti-angle-down font-size-9"></i></button>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a id="btnSumID" type="submit" class="btn">Summary</a></li>
+                                                                <li><a id="btnInvoice" type="submit" class="btn">Invoice</a></li>
+                                                                <li><a id="btnInvoice2" type="submit" class="btn">Invoice 2</a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <button hidden="" type="button" class="btn btn-raised btn-danger"><i hidden="" class="fa fa-print"></i> Print</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    @endif --}}
 
                 </div>
             </div>

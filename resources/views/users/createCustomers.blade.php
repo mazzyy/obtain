@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css" />
     <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/searchbuilder/1.0.1/css/searchBuilder.dataTables.min.css" />
+     href="https://cdn.datatables.net/searchbuilder/1.0.1/css/searchBuilder.dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.24/datatables.min.css" />
 
     <div class="container-fluid mt--7">
@@ -59,7 +59,7 @@
                             <!-- Light table -->
                             <div id="ajaxrefresh">
                                 <div class="table-responsive" id="table">
-                                    <table class="table align-items-center table-flush">
+                                    <table id="targettable" class="table align-items-center table-flush">
                                         <thead class="thead-light">
                                             <tr>
                                                 <th scope="col" class="sort " data-sort="name">InternetID</th>
@@ -621,6 +621,12 @@
 
             });
 
+        </script>
+        <script>
+             $(document).ready(function() {
+                $('#targettable').DataTable( {
+                } );
+            } );
         </script>
 
 

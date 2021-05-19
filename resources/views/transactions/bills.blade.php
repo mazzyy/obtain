@@ -24,11 +24,11 @@
             <div class="container-fluid mt--7 mrg-top-20">
                 <div class="row ">
                     <div class="col-md-12 ml-auto mr-auto">
-                    {{-- @if(isset($message))
+                    @if(isset($message))
                         <div class=" popup alert alert-success">
                             {{ $message }}
                         </div>
-                    @endif --}}
+                    @endif
                     <form action="{{route('bills.create')}}" method="POST">
                         @csrf
                             <div class="row bg-gradient-default shadow rounded text-white">
@@ -302,10 +302,10 @@
 <script >
 
 //time for popup dive
-    // setTimeout(function(){
-    // $('.popup').remove();
-    // }, 10000);
-    // fitText(document.querySelector("action"), 0.38);
+    setTimeout(function(){
+    $('.popup').remove();
+    }, 5000);
+    fitText(document.querySelector("action"), 0.38);
 </script>
 {{-- excel file cdn and function --}}
 {{-- <script src=
