@@ -6,12 +6,12 @@
         label {
             font-size: 80%
         }
-.card .table td,
-.card .table th
-{
-    padding-right: 0rem !important;
-    padding-left: 0.2rem !important;
-}
+
+        .card .table td,
+        .card .table th {
+            padding-right: 0rem !important;
+            padding-left: 0.2rem !important;
+        }
 
     </style>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" />
@@ -195,7 +195,7 @@
                                             <div class="text-center text-muted mb-4">
                                                 <small>Customers </small>
                                             </div>
-                                            <form action="" method="get" id="target" name="target">
+                                            <form action="" method="post" id="target-form" name="target-form">
                                                 <div class="col-md-12">
 
                                                     <div class="form-row ">
@@ -407,19 +407,6 @@
                                                                         </select>
                                                                     </div>
                                                                 </div>
-                                                                {{-- <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Discount</label>
-                                                <select name="cmbDiscount" id="cmbDiscount" class="form-control">
-                                                    <option value="0">No Discount</option>
-                                                    <option value="25">quarter</option>
-                                                    <option value="50">half</option>
-                                                    <option value="75">semi</option>
-                                                    <option value="100">full free</option>
-                                                    <option value="1">Custom</option>
-                                                </select>
-                                            </div>
-                                        </div> --}}
                                                                 <div class="col-md-4">
                                                                     <div class="form-group ">
                                                                         <label>Discount </label>
@@ -439,7 +426,8 @@
                                                                             @foreach ($internetPkg as $intPkg)
                                                                                 <option
                                                                                     value="{{ $intPkg->package }}-{{ $intPkg->price }}">
-                                                                                    {{ $intPkg->package }} </option>
+                                                                                    {{ $intPkg->package }}
+                                                                                </option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
@@ -452,9 +440,10 @@
                                                                 <div class="col-md-4">
                                                                     <div class="form-group ">
                                                                         <label>Discount </label>
-                                                                        <input name="txtAmountint" type="number" maxlength="9"
-                                                                            class="form-control" id="txtAmountint"
-                                                                            placeholder="Amount" required=""
+                                                                        <input name="txtAmountint" type="number"
+                                                                            maxlength="9" class="form-control"
+                                                                            id="txtAmountint" placeholder="Amount"
+                                                                            required=""
                                                                             onkeypress="javascript:return checkNumber(event)"
                                                                             value='0'>
                                                                     </div>
@@ -517,15 +506,18 @@
                                         <div class="card-body px-lg-5 py-lg-5">
                                             <div class="text-center text-muted mb-4">
                                                 <h3>Import Customer through excel file </h3>
-                                                <small><strong>Accepted Extensions: .xlsx , .xls</strong></small>
+                                                <small><strong>Accepted Extensions: .xlsx , .xls, .csv</strong></small>
                                             </div>
-                                            <form action="{{ route("import") }}" method="post" id="target" name="target" enctype="multipart/form-data">
+                                            <form action="{{ route('import') }}" method="post" id="target" name="target"
+                                                enctype="multipart/form-data">
                                                 @csrf
                                                 <div class="form-group">
-                                                    <input type="file" name="file" class="form-control" accept=".xlsx, .xls">
+                                                    <input type="file" name="file" class="form-control"
+                                                        accept=".xlsx, .xls, .csv">
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="submit" value="Submit" class="form-control btn btn-primary">
+                                                    <input type="submit" value="Submit"
+                                                        class="form-control btn btn-primary">
 
                                                 </div>
                                             </form>
@@ -552,7 +544,7 @@
         <script>
             function checkNumber(evt) {
                 var iKeyCode = (evt.which) ? evt.which : evt.keyCode
-                if (iKeyCode < 48 || iKeyCode > 57 ) {
+                if (iKeyCode < 48 || iKeyCode > 57) {
                     return false;
                 } else {
                     return true;
@@ -561,32 +553,40 @@
 
         </script>
         <script>
-            $('#target').on('submit', function(event) {
+            $('#target-form').on('submit', function(event) {
 
                 event.preventDefault();
-                var data = $('#target').serialize();
+                var data = $('#target-form').serialize();
                 //  alert('life');
                 //  console.log(data);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                 $.ajax({
-                    type: 'get',
+                    type: 'post',
                     url: '{{ route('createCustomersUsers') }}',
                     data: data,
                     success: function(results) {
+                        console.log(results)
 
 
                         $('#modal-form').modal('hide');
                         $('#ajaxrefresh').load(' #table');
-                        console.log(results);
-                        console.log(data);
- $(".header-body").append('<div  class="popup alert alert-default" role="alert"><span class="alert-inner--icon"><i class="ni ni-like-2"></i></span><span class="alert-inner--text"><strong>'+results+'</strong> created successfully</span></div>');
+                        // console.log(results);
+                        // console.log(data);
+                        $(".header-body").append(
+                            '<div  class="popup alert alert-default" role="alert"><span class="alert-inner--icon"><i class="ni ni-like-2"></i></span><span class="alert-inner--text"><strong>' +
+                            results + '</strong> created successfully</span></div>');
 
                     }
 
                 }); // end ajax
                 //time for popup dive
-                    setTimeout(function(){
+                setTimeout(function() {
                     $('.popup').remove();
-                    }, 5000);
+                }, 5000);
             });
 
         </script>
@@ -601,15 +601,15 @@
                     $("#txtAmount").prop("disabled", true);
                     $("#cmbPackageint").prop("disabled", false);
                     $("#txtAmountint").prop("disabled", false);
-                    $("#cmbPackage").value="0"
-                    $("#txtAmount").value="0"
+                    $("#cmbPackage").value = "0"
+                    $("#txtAmount").value = "0"
                 } else if (selected == 'TV Cable') {
                     $("#cmbPackage").prop("disabled", false);
                     $("#txtAmount").prop("disabled", false);
                     $("#cmbPackageint").prop("disabled", true);
                     $("#txtAmountint").prop("disabled", true);
-                    $("#cmbPackageint").value="0";
-                    $("#txtAmountint").value="0";
+                    $("#cmbPackageint").value = "0";
+                    $("#txtAmountint").value = "0";
                 } else {
 
                     $("#cmbPackage").prop("disabled", false);
