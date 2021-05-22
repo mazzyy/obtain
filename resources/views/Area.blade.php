@@ -144,6 +144,10 @@
                   <div class="text-center text-muted mb-4">
                       <small>New Address </small>
                   </div>
+                  <div class="alert alert-danger print-error-msg" style="display:none">
+
+                    <ul></ul>
+                </div>
                   <form action="" method="get"  id="target" name="target">
 
                         {{-- country --}}
@@ -258,14 +262,21 @@
     data:data,
     success: function(results) {
 
-  // data-toggle="modal" data-target="#myModal"
-    //  $("#myModal").modal()
-    $('#modal-form').modal('hide');
-    $('#ajaxrefresh').load(' #table');
-       console.log(results);
-       console.log(data);
+        if($.isEmptyObject(results.error)){
+            $('#modal-form').modal('hide')
+        $('#ajaxrefresh').load(' #table');
+        }else{
+            $(".print-error-msg").find("ul").html('');
 
+                $(".print-error-msg").css('display','block');
 
+                $.each( results.error, function( key, value ) {
+
+                $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+
+                });
+
+        }
     }
 
   }); // end ajax

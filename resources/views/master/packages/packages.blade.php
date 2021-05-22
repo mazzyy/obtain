@@ -143,6 +143,10 @@
                                             {{-- <div class="text-center text-muted mb-4">
                                                 <small>New Package </small>
                                             </div> --}}
+                                            <div class="alert alert-danger print-error-msg" style="display:none">
+
+                                                <ul></ul>
+                                            </div>
                                             <form method="POST" id="pckg-form">
                                                 @csrf
 
@@ -202,9 +206,22 @@
                                                 url: '{{ route('packages.store') }}',
                                                 data: data,
                                                 success: function(results) {
-                                                    $('#modal-form').modal('hide');
 
-                                                    $('#ajaxrefresh').load(' #table');
+                                                    if($.isEmptyObject(results.error)){
+                                                        $('#modal-form').modal('hide')
+                                                       $('#ajaxrefresh').load(' #table');
+                                                    }else{
+                                                        $(".print-error-msg").find("ul").html('');
+
+                                                            $(".print-error-msg").css('display','block');
+
+                                                            $.each( results.error, function( key, value ) {
+
+                                                            $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+
+                                                            });
+
+                                                    }
                                                 }
                                             })
                                         })

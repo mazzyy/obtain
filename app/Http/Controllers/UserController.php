@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
-
+use Illuminate\Routing\Controller;
+// use Illuminate\Foundation\Validation\ValidatesRequests;
 
 
 
@@ -41,27 +42,31 @@ class UserController extends Controller
     }
 
 
-    // // return $request;
-    // $validator = Validator::make($request->all(), [
-    //     "name" => "required",
-    //     "email" => "required|email",
-    //     "internetId" => "required",
 
-    // ]);
     public function create(Request $request)
 
     {
 
         $validator = Validator::make($request->all(), [
+
+            'internetId' => ['required'],
             "name" => "required",
-            "email" => "required|email",
-            "internetId" => "required",
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            "Sublocality" => "required",
+            "txtPhone1" => "required",
+            "rechargeDate" => "required",
+            "type" => "required",
+            "provider" => "required",
+            "box" => "required",
+
+
 
         ]);
 
         // return $validator->errors()->keys()[0];
 
-        if (!isset($validator->errors()->keys()[0])) {
+        // check if data is not(not empty) is short if there is no error
+        if ($validator->passes()) {
 
             $companyid = Auth::user()->companyid;
             $companyName = Auth::user()->companyName;
@@ -134,9 +139,9 @@ class UserController extends Controller
                 return false;
             }
             // return $validator->errors();
-            return $request->input('name');
+            return response()->json(['success'=> $user->name]);
         } else {
-            return $validator->errors();
+            return response()->json(['error'=>$validator->errors()->all()]);
         }
     }
 

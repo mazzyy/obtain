@@ -7,7 +7,7 @@ $(document).ready(function () {
 });
      </script> --}}
 
-<nav  data-spy="scroll" data-target="spy-scroll-id" class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white"  id="sidenav-main" >
+<nav  data-spy="scroll" data-target="spy-scroll-id" class="navbar  navbar-vertical fixed-left navbar-expand-sm navbar-light bg-white"  id="sidenav-main" >
     <div class="container-fluid">
         <!-- Toggler -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidenav-collapse-main"
@@ -167,6 +167,24 @@ $(document).ready(function () {
                             </li>
                         </ul>
                     </div>
+                    {{-- <div class="collapse " id="navbar-transaction">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route("collection") }}">
+                                    {{ __('Users Collection') }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div> --}}
+                    <div class="collapse " id="navbar-transaction">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route("collection") }}">
+                                    {{ __('Customers Collection') }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('area') }}">
@@ -184,12 +202,12 @@ $(document).ready(function () {
                         <i class="ni ni-pin-3 text-orange"></i> {{ __('Maps') }}
                     </a>
                 </li> --}}
-                {{-- <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('table') }}">
                         <i class="ni ni-bullet-list-67 text-default"></i>
                         <span class="nav-link-text">Tables</span>
                     </a>
-                </li> --}}
+                </li>
                 {{-- <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="ni ni-circle-08 text-pink"></i> {{ __('Register') }}

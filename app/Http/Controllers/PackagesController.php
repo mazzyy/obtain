@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Package;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class PackagesController extends Controller
 {
@@ -18,11 +19,27 @@ class PackagesController extends Controller
 
     public function store(Request $request) {
         // $name=$request->input('pckg-name');
-        $package = new Package();
-        $package["company_id"] = Auth::user()->companyid;
-        $package["package"] = $request["pckg-name"];
-        $package["price"] = $request["pckg-price"];
-        $package["type"] = $request["pckg-type"];
-        $package->save();
+
+
+        $validator = Validator::make($request->all(), [
+            "pckg-name" => "required",
+            "pckg-price" => ["required",'integer'],
+            "pckg-type" => "required",
+
+        ]);
+
+        if($validator->passes()){
+            $package = new Package();
+            $package["company_id"] = Auth::user()->companyid;
+            $package["package"] = $request["pckg-name"];
+            $package["price"] = $request["pckg-price"];
+            $package["type"] = $request["pckg-type"];
+            $package->save();
+
+            return response()->json(['success'=>'Added new records.']);
+        }else{
+
+            return response()->json(['error'=>$validator->errors()]);
+        }
     }
 }

@@ -42,6 +42,9 @@ table{
     width: 100%;
     font-size:5ch !important ;
 }
+nav{
+    style="width:70% !important"
+}
 </style>
     <body class="{{ $class ?? '' }}">
         @auth()

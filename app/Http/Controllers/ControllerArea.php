@@ -6,6 +6,9 @@ use App\Models\company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
+
 class ControllerArea extends Controller
 {
     //
@@ -23,8 +26,16 @@ class ControllerArea extends Controller
 
     public function create(Request $request){
 
+
         $companyid=Auth::user()->companyid;
 
+        $validator = Validator::make($request->all(), [
+            "country" => "required",
+            "city" => "required",
+            "locality" => "required",
+            "sublocality" => "required",
+        ]);
+        if( $validator->passes()){
         $country=$request->input('country');
         $city=$request->input('city');
         $locality=$request->input('locality');
@@ -37,6 +48,12 @@ class ControllerArea extends Controller
         $location->locality=$locality;
         $location->sublocality=$sublocality;
         $location->save();
+
+        return response()->json(['success'=>'Added new records.']);
+        }else{
+
+        return response()->json(['error'=>$validator->errors()]);
+        }
 
 
 

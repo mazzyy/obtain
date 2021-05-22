@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Validator;
 
 class TransactionController extends Controller
 {
@@ -18,6 +18,7 @@ class TransactionController extends Controller
         $generatedbill="";
         $companyid=Auth::user()->companyid;
         $locations = DB::table('locations')->where('company_id', '=', $companyid)->get();
+
 
         return view("transactions.bills", [
             "locations" => $locations,
@@ -35,6 +36,17 @@ class TransactionController extends Controller
         $sublocality=$request->input('sublocality');
         $companyid=Auth::user()->companyid;
         $action=$request->input('action');
+
+        $validator = Validator::make($request->all(), [
+            "month" => "required",
+            "year" => "required",
+            "bill-type" => "required",
+            "sublocality" => "required",
+        ]);
+
+if($validator->passes()){
+
+
 
         if($action=='delete'){
             if($sublocality==0){
@@ -128,7 +140,15 @@ class TransactionController extends Controller
 
        $message="The ".$billtype." bill for ".$year."-".$month." of ".$sublocalityName. " has been Created";
 
-    return view('transactions/bills')->with('generatedbill',$generatedbill)->with('locations',$locations)->with('message',  $message);;
+       return view('transactions/bills')->with('generatedbill',$generatedbill)->with('locations',$locations)->with('message',  $message);;
+    }else{
+        $generatedbill="";
+       $locations = DB::table('locations')->where('company_id', '=', $companyid)->get();
+       return view('transactions/bills')->with('errors',$validator->errors())->with('generatedbill',$generatedbill)->with('locations',$locations);
+    // return response()->json(['error'=>$validator->errors()]);
+}
+
+
     }
 
 

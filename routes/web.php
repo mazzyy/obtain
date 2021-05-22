@@ -72,4 +72,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get("/transactions/excel", 'App\Http\Controllers\excelController@excelbill')->name("bills.excel");
     // customerCollectionn
     Route::get("/transactions/collectionn", 'App\Http\Controllers\customercollectionController@index')->name("collection");
+    Route::get("/transactions/find", 'App\Http\Controllers\customercollectionController@find')->name("collection.find");
 });

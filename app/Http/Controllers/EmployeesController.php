@@ -7,6 +7,7 @@ use App\Models\User;
 // use Datatables;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class EmployeesController extends Controller
 
@@ -25,26 +26,35 @@ class EmployeesController extends Controller
 
     public function create(Request $request)
     {
-        // $request->input("");
 
-        // $validated = $request->validate([
-        //     "name" => ["required", "string", "alpha", "max:30"],
-        //     "email" => ["email", "required", "max:30"],
-        //     "password" => ["required", "alpha_dash", "min:8", "max:15"]
-        // ]);
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'role' => 'required',
+            'password' => 'required',
+        ]);
 
         $companyid = Auth::user()->companyid;
         $companyName = Auth::user()->companyName;
 
-        $user = new User();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = Hash::make($request->input('password'));
-        $user->role = $request->input('role');
-        $user->companyid = $companyid;
-        $user->companyName = $companyName;
-        $user->save();
+        if ($validator->passes()) {
+            $user = new User();
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->password = Hash::make($request->input('password'));
+            $user->role = $request->input('role');
+            $user->companyid = $companyid;
+            $user->companyName = $companyName;
+            $user->save();
 
-        return $user->name;
+            return response()->json(['success'=> $user->name]);
+
+        }else{
+
+        return response()->json(['error'=>$validator->errors()]);
+        }
+
+
     }
 }

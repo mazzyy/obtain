@@ -39,6 +39,7 @@
 
                                     <h3 class="pl-1 mb-0">Customers</h3>
                                 </div>
+
                                 <div class="col-5 text-right">
 
                                     <button href="" class=" mt-3 mb-3 mr-2 pr-3 btn btn-icon   btn-default btn-sm"
@@ -195,6 +196,11 @@
                                             <div class="text-center text-muted mb-4">
                                                 <small>Customers </small>
                                             </div>
+                                            <div class="alert alert-danger print-error-msg" style="display:none">
+
+                                                <ul></ul>
+                                            </div>
+
                                             <form action="" method="post" id="target-form" name="target-form">
                                                 <div class="col-md-12">
 
@@ -569,21 +575,41 @@
                     url: '{{ route('createCustomersUsers') }}',
                     data: data,
                     success: function(results) {
-                        console.log(results)
+                        // console.log(results)
+                        if($.isEmptyObject(results.error)){
 
+                                 $('#modal-form').modal('hide');
+                            $('#ajaxrefresh').load(' #table');
 
-                        $('#modal-form').modal('hide');
-                        $('#ajaxrefresh').load(' #table');
-                        // console.log(results);
-                        // console.log(data);
-                        $(".header-body").append(
+                            // console.log(data);
+                            $(".header-body").append(
                             '<div  class="popup alert alert-default" role="alert"><span class="alert-inner--icon"><i class="ni ni-like-2"></i></span><span class="alert-inner--text"><strong>' +
-                            results + '</strong> created successfully</span></div>');
+                                results.success + '</strong> created successfully</span></div>');
+
+                            }else{
+                                $(".print-error-msg").find("ul").html('');
+
+                                $(".print-error-msg").css('display','block');
+
+                            $.each( results.error, function( key, value ) {
+
+                                $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+                                console.log(value)
+                            });
+
+                            }
+
+
 
                     }
+                      //Laravel validation error function
+
+
 
                 }); // end ajax
-                //time for popup dive
+
+
+//popup close after 5 seconds
                 setTimeout(function() {
                     $('.popup').remove();
                 }, 5000);
