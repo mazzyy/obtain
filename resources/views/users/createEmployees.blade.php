@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="col-4 text-right">
 
-                                    <button href="" class=" mt-3 mb-3 mr-2 pr-3 btn btn-icon   btn-default btn-sm"
+                                    <button href="" class=" btn-block mt-3 mb-3 mr-2 pr-3 btn btn-icon   btn-default btn-sm"
                                         type="button" data-toggle="modal" data-target="#modal-form">
                                         <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
                                         <span class="btn-inner--text">Add new Employee </span>

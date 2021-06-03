@@ -54,6 +54,15 @@ Route::group(['middleware' => 'auth'], function () {
     //createEmployess
     Route::get('/createEmployees', 'App\Http\Controllers\EmployeesController@index')->name('createEmployees');
     Route::post('/createEmployeesUsers', 'App\Http\Controllers\EmployeesController@create')->name('createEmployeesUsers');
+
+    //DealerDetails
+    Route::get('/dealer', 'App\Http\Controllers\dealerDetailsController@index')->name('dealer');
+    Route::get('/dealer/create', 'App\Http\Controllers\dealerDetailsController@create')->name('dealer.create');
+
+    //Query
+    Route::get('/queries', 'App\Http\Controllers\QuerieController@index')->name('queries');
+    Route::get('/queries/create', 'App\Http\Controllers\QuerieController@create')->name('queries.create');
+
     //area
     Route::get('/area', 'App\Http\Controllers\ControllerArea@index')->name('area');
     Route::get('/area_create', 'App\Http\Controllers\ControllerArea@create')->name('area_create');

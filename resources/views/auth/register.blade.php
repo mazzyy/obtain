@@ -8,9 +8,9 @@
         <div class="row justify-content-center">
             <div class="col-lg-6 col-md-8">
                 <div class="card bg-secondary shadow border-0">
-                    <div class="card-header bg-transparent pb-5">
+                    <div class="card-header bg-transparent pb-2">
                         <div class="text-muted text-center mt-2 mb-4"><small>{{ __('Sign up with') }}</small></div>
-                        <div class="text-center">
+                        {{-- <div class="text-center">
                             <a href="#" class="btn btn-neutral btn-icon mr-4">
                                 <span class="btn-inner--icon"><img src="{{ asset('argon') }}/img/icons/common/github.svg"></span>
                                 <span class="btn-inner--text">{{ __('Github') }}</span>
@@ -19,19 +19,19 @@
                                 <span class="btn-inner--icon"><img src="{{ asset('argon') }}/img/icons/common/google.svg"></span>
                                 <span class="btn-inner--text">{{ __('Google') }}</span>
                             </a>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="text-center text-muted mb-4">
-                        <small>
+                        {{-- <small>
                                 Create new account OR Sign in with these credentials:
                                 <br>
                                 Username <strong>admin@argon.com</strong> Password: <strong>secret123</strong>
-                        </small>
+                        </small> --}}
                     </div>
-                    <div class="card-body px-lg-5 py-lg-5">
-                        <div class="text-center text-muted mb-4">
-                            <small>{{ __('Or sign up with credentials') }}</small>
-                        </div>
+                    <div class="card-body px-lg-5 py-lg-1">
+                        {{-- <div class="text-center text-muted mb-4">
+                            <small>{{ __('sign up with credentials') }}</small>
+                        </div> --}}
                         <form role="form" method="POST" action="{{ route('register') }}">
                             @csrf
 
@@ -75,7 +75,8 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                                     </div>
-                                    <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('Password') }}" type="password" name="password" required>
+                                    <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="{{ __('Password') }}" type="password" id="password" name="password" required>
+                                    <span toggle="#password-field" style="padding-top:3.4%" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                                 </div>
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" style="display: block;" role="alert">
@@ -92,16 +93,16 @@
                                 </div>
                             </div>
                             <div class="text-muted font-italic">
-                                <small>{{ __('password strength') }}: <span class="text-success font-weight-700">{{ __('strong') }}strong</span></small>
+                                {{-- <small>{{ __('password strength') }}: <span class="text-success font-weight-700">{{ __('strong') }}strong</span></small> --}}
                             </div>
                             <div class="row my-4">
                                 <div class="col-12">
-                                    <div class="custom-control custom-control-alternative custom-checkbox">
+                                    {{-- <div class="custom-control custom-control-alternative custom-checkbox">
                                         <input class="custom-control-input" id="customCheckRegister" type="checkbox">
                                         <label class="custom-control-label" for="customCheckRegister">
                                             <span class="text-muted">{{ __('I agree with the') }} <a href="#!">{{ __('Privacy Policy') }}</a></span>
                                         </label>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             <div class="text-center">
@@ -110,7 +111,21 @@
                         </form>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
+    <script>
+        $(".toggle-password").click(function() {
+
+$(this).toggleClass("fa-eye fa-eye-slash");
+// var input = $($('password').attr("toggle"));
+  var x =document.getElementById("password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+});
+    </script>
 @endsection

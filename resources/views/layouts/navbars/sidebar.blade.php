@@ -16,7 +16,7 @@ $(document).ready(function () {
         </button>
         <!-- Brand -->
         <a class="navbar-brand pt-0" href="{{ route('home') }}">
-            <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="...">
+            <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img w-75" alt="...">
         </a>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
@@ -66,7 +66,7 @@ $(document).ready(function () {
                 <div class="row">
                     <div class="col-6 collapse-brand">
                         <a href="{{ route('home') }}">
-                            <img src="{{ asset('argon') }}/img/brand/blue.png">
+                            <img  class="w-100" src="{{ asset('argon') }}/img/brand/blue.png">
                         </a>
                     </div>
                     <div class="col-6 collapse-close">
@@ -95,18 +95,20 @@ $(document).ready(function () {
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('home') }}">
-                        <i class="ni ni-tv-2 text-primary"></i> {{ __('Dashboard') }}
+                        <i class="ni ni-tv-2 text-primary" ></i> <span style="color:black">{{ __('Dashboard') }}</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- User Managment --}}
+                {{-- <li class="nav-item">
                     <a class="nav-link active collapsed" href="#navbar-examples" data-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="navbar-examples">
-                        <i class="fab fa-laravel" style="color: #f4645f;"></i>
-                        <span class="nav-link-text" style="color: #f4645f;">{{ __('User Management') }}</span>
+
+                        <i class="fas fa-user-plus  text-primary "></i>
+                        <span class=" nav-link-text" s>{{ __('User Management') }}</span>
                     </a>
 
                     <div class="collapse " id="navbar-examples">
-                        <ul class="nav nav-sm flex-column">
+                        <ul class="nav nav-sm flex-column bg-light">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('createEmployees') }}">
                                     {{ __('Add Employees') }}
@@ -119,47 +121,58 @@ $(document).ready(function () {
                             </li>
                         </ul>
                     </div>
-                </li>
-                <!-- User Managment -->
-                {{-- <li class="nav-item">
-                    <a class="nav-link" href="{{ route('user.index') }}">
-                        <i class="fab fa-laravel" style="color: #f4645f;"></i>   {{ __('User Management') }}
-                    </a>
                 </li> --}}
+
 
                 {{-- Master --}}
                 <li class="nav-item">
                     <a class="nav-link active collapsed" href="#navbar-master" data-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="navbar-master">
-                        <i class="ni ni-world" style="color: #f4645f;"></i>
-                        <span class="nav-link-text" style="color: #f4645f;">{{ __('Master') }}</span>
+                        <i class="ni ni-briefcase-24  text-primary" ></i>
+                        <span class=" nav-link-text" >{{ __('Master') }}</span>
                     </a>
 
                     <div class="collapse " id="navbar-master">
-                        <ul class="nav nav-sm flex-column">
+                        <ul class="nav nav-sm flex-column bg-light">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('createEmployees') }}">
+                                    {{ __('Add Employees') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('user.index') }}">
+                                    {{ __('Add Customers') }}
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('packages.index') }}">
                                     {{ __('Packages') }}
                                 </a>
                             </li>
-                            {{-- <li class="nav-item">
-                                <a class="nav-link" href="{{ route('user.index') }}">
-                                    {{ __('Add Customers') }}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('dealer') }}">
+                                    {{ __('Dealer Details') }}
                                 </a>
-                            </li> --}}
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('queries') }}">
+                                    {{ __('Queries') }}
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
 
+                {{-- Transactions --}}
                 <li class="nav-item">
                     <a class="nav-link active collapsed" href="#navbar-transaction" data-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="navbar-master">
-                        <i class="ni ni-world" style="color: #f4645f;"></i>
-                        <span class="nav-link-text" style="color: #f4645f;">{{ __('Transactions') }}</span>
+                        <i class="fas fa-clone  text-primary"></i>
+                        <span class=" nav-link-text" >{{ __('Transactions') }}</span>
                     </a>
 
-                    <div class="collapse " id="navbar-transaction">
-                        <ul class="nav nav-sm flex-column">
+                    <div class="collapse bg-light" id="navbar-transaction">
+                        <ul class="nav nav-sm flex-column ">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route("bills.index") }}">
                                     {{ __('Bills creator') }}
@@ -176,7 +189,7 @@ $(document).ready(function () {
                             </li>
                         </ul>
                     </div> --}}
-                    <div class="collapse " id="navbar-transaction">
+                    <div class="collapse bg-light" id="navbar-transaction">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route("collection") }}">
@@ -186,11 +199,163 @@ $(document).ready(function () {
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('area') }}">
-                        <i class="ni ni-world-2"></i> {{ __('Locations') }}
+
+               {{-- Accounts --}}
+
+        <li class="nav-item">
+                    <a class="nav-link active collapsed" href="#navbar-accounts" data-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="navbar-accounts">
+                        <i class="fas fa-file-invoice-dollar  text-primary"></i>
+                        <span class=" nav-link-text"   >{{ __('Accounts') }}</span>
                     </a>
-                </li>
+
+                    <div class="collapse " id="navbar-accounts">
+                        <ul class="nav nav-sm flex-column bg-light">
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('packages.index') }}">
+                                    {{ __('Bills Creator') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    {{ __('Users Collections') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    {{ __('Allocated Collection') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    {{ __('Area Allocation') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    {{ __('Internet Recharge') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    {{ __('Dealers Collections') }}
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+        </li>
+
+        {{-- Messages--}}
+        <li class="nav-item">
+            <a class="nav-link active collapsed" href="#navbar-messages" data-toggle="collapse" role="button"
+                aria-expanded="false" aria-controls="navbar-messages">
+                <i class="fas fa-comment  text-primary"></i>
+                <span class=" nav-link-text" >{{ __('Messages') }}</span>
+            </a>
+
+            <div class="collapse " id="navbar-messages">
+                <ul class="nav nav-sm flex-column bg-light">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('New Messages') }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('Expire Messages') }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('Draft Messages') }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('Other Messages') }}
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </li>
+
+         {{-- Reports--}}
+         <li class="nav-item">
+            <a class="nav-link active collapsed" href="#navbar-reports" data-toggle="collapse" role="button"
+                aria-expanded="false" aria-controls="navbar-reports">
+                <i class="ni ni-single-copy-04  text-primary"></i>
+                <span class=" nav-link-text" >{{ __('Reports') }}</span>
+            </a>
+
+            <div class="collapse bg-light" id="navbar-reports">
+                <ul class="nav nav-sm flex-column ">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('User Collection ') }}
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav nav-sm flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('Users Defaulter') }}
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav nav-sm flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('Users List ') }}
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav nav-sm flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('User Deactivate List') }}
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav nav-sm flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('Users Package Wise List ') }}
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav nav-sm flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('Dealers Collection') }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('Dealers list') }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('Accounts Report') }}
+                        </a>
+                    </li>
+                </ul>
+
+
+            </div>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('area') }}">
+                <i class="fas fa-globe-americas text-primary"></i> <span style="color:black">{{ __('Locations') }}</span>
+            </a>
+        </li>
+
+
                 {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('icons') }}">
                         <i class="ni ni-planet text-blue"></i> {{ __('Icons') }}
@@ -205,7 +370,7 @@ $(document).ready(function () {
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('table') }}">
                         <i class="ni ni-bullet-list-67 text-default"></i>
-                        <span class="nav-link-text">Tables</span>
+                        <span class=" nav-link-text">Tables</span>
                     </a>
                 </li>
                 {{-- <li class="nav-item">

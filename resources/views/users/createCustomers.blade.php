@@ -210,7 +210,8 @@
                                                                 <label>Internet ID</label>
                                                                 <input type="text" class="form-control" id="txtNic"
                                                                     placeholder="Internet ID" maxlength="15"
-                                                                    name="internetId">
+                                                                    name="internetId"
+                                                                    required>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3">
@@ -245,18 +246,18 @@
 
                                                         <div class="col-md-3">
                                                             <div class="form-group">
-                                                                <label>Cell</label>
+                                                                <label>Mobile</label>
                                                                 <input type="text" class="form-control" maxlength="11"
-                                                                    name="txtPhone1" id="txtPhone1" required=""
+                                                                    name="txtPhone1" id="txtPhone1" required
                                                                     onkeypress="javascript:return checkNumber(event)">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <div class="form-group">
-                                                                <label>Mobile</label>
+                                                                <label>Mobile 2</label>
                                                                 <input type="text" class="form-control" maxlength="11"
                                                                     id="txtPhone2" name="txtPhone2" placeholder="Phone2"
-                                                                    required=""
+
                                                                     onkeypress="javascript:return checkNumber(event)">
                                                             </div>
                                                         </div>
@@ -277,7 +278,7 @@
                                                                 <label>Installation amount</label>
                                                                 <input type="number" maxlength="9" class="form-control"
                                                                     id="txtInstalAmount" name="installationAmount"
-                                                                    required=""
+                                                                    value='0'
                                                                     onkeypress="javascript:return checkNumber(event)">
                                                             </div>
                                                         </div>
@@ -285,7 +286,7 @@
                                                             <div class="form-group ">
                                                                 <label>Other Amount </label>
                                                                 <input type="number" maxlength="9" class="form-control"
-                                                                    id="txtOtherAmt" name="otherAmount" required=""
+                                                                    id="txtOtherAmt" name="otherAmount" value='0'
                                                                     onkeypress="javascript:return checkNumber(event)">
                                                             </div>
                                                         </div>
@@ -322,6 +323,7 @@
                                                                         <input type="date" class="form-control datepicker-1"
                                                                             id="txtDtAddDate" maxlength="10"
                                                                             name="installationDate"
+                                                                            required
                                                                             data-provide="datepicker">
                                                                     </div>
                                                                 </div>
@@ -330,6 +332,7 @@
                                                                         <label>Recharge Date</label>
                                                                         <input type="date" class="form-control datepicker-1"
                                                                             id="txtDtReDate" maxlength="10"
+                                                                            required
                                                                             name="rechargeDate" data-provide="datepicker">
                                                                     </div>
                                                                 </div>
@@ -337,7 +340,8 @@
                                                                     <div class="form-group ">
                                                                         <label>Providers</label>
                                                                         <select id="cmbConPro" class="form-control"
-                                                                            name="provider">
+                                                                            name="provider"
+                                                                            required>
                                                                             <option value="0">Select the Message</option>
                                                                             <option value="CLICK" pick="">CLICK PICK
                                                                             </option>
