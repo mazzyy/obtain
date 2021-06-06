@@ -3,7 +3,7 @@
 
 @section('content')
    @include('layouts.headers.cards', [
-        // 'title' => __('') . ' '.'Important!',
+        'title' => __('') . ' '.'Important!',
         'description' => __('If a bill has already been created for a customer on the same date, it will simply open and it will not be created again.'),
         'class' => 'col-lg-12'
     ])

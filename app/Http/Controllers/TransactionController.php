@@ -44,109 +44,109 @@ class TransactionController extends Controller
             "sublocality" => "required",
         ]);
 
-if($validator->passes()){
+    if($validator->passes()){
 
 
 
-        if($action=='delete'){
-            if($sublocality==0){
-                $check=bill::where( 'companie_id',$companyid)->where('year',$year)->where('billType',$billtype)->where('month',$month)->delete();
-                $sublocalityName="All sublocality";
+            if($action=='delete'){
+                if($sublocality==0){
+                    $check=bill::where( 'companie_id',$companyid)->where('year',$year)->where('billType',$billtype)->where('month',$month)->delete();
+                    $sublocalityName="All sublocality";
+                }
+                else{
+                list($sublocality,$sublocalityName)=explode('-',$sublocality);
+                $check=bill::where( 'companie_id',$companyid)->where('year',$year)->where('billType',$billtype)->where('month',$month)->where('Sublocality',$sublocality)->delete();
+
+                }
+
+                $locations = DB::table('locations')->where('company_id', '=', $companyid)->get();
+                $generatedbill=null;
+                $message="The ".$billtype." bill for ".$year."-".$month." of ".$sublocalityName. " has been removed";
+                return view('transactions.bills')->with('locations',$locations)->with('generatedbill',$generatedbill)->with('message',  $message);
+
             }
-            else{
+
+            if($sublocality!=0){
             list($sublocality,$sublocalityName)=explode('-',$sublocality);
-            $check=bill::where( 'companie_id',$companyid)->where('year',$year)->where('billType',$billtype)->where('month',$month)->where('Sublocality',$sublocality)->delete();
+            }
+
+            // $data=connections::where('connectiontype',$billtype)->where('Sublocality',$sublocality)->where('company_id',$companyid)->get();
+        if($sublocality!=0){
+            $customers = User::where('companyid', '=', $companyid)->where('role','4')->where('connectiontype',$billtype)->where('Sublocality',$sublocality)->join('connections', 'users.id', '=', 'connections.user_id')->get();
+            // dd($customers);
 
             }
 
-            $locations = DB::table('locations')->where('company_id', '=', $companyid)->get();
-            $generatedbill=null;
-            $message="The ".$billtype." bill for ".$year."-".$month." of ".$sublocalityName. " has been removed";
-            return view('transactions.bills')->with('locations',$locations)->with('generatedbill',$generatedbill)->with('message',  $message);
-
-        }
-
-        if($sublocality!=0){
-        list($sublocality,$sublocalityName)=explode('-',$sublocality);
-        }
-
-        // $data=connections::where('connectiontype',$billtype)->where('Sublocality',$sublocality)->where('company_id',$companyid)->get();
-       if($sublocality!=0){
-        $customers = User::where('companyid', '=', $companyid)->where('role','4')->where('connectiontype',$billtype)->where('Sublocality',$sublocality)->join('connections', 'users.id', '=', 'connections.user_id')->get();
-        // dd($customers);
-
-        }
-
-        $check=bill::where( 'companie_id',$companyid)->where('year',$year)->where('billType',$billtype)->where('month',$month)->where('Sublocality',$sublocality)->exists();
+            $check=bill::where( 'companie_id',$companyid)->where('year',$year)->where('billType',$billtype)->where('month',$month)->where('Sublocality',$sublocality)->exists();
 
 
-        if($check){
+            if($check){
 
-        }else if($sublocality==0){
-            $sublocalityName="All sublocality";
-            $subId=location::where('company_id', '=', $companyid)->get();
+            }else if($sublocality==0){
+                $sublocalityName="All sublocality";
+                $subId=location::where('company_id', '=', $companyid)->get();
 
-            foreach($subId as $id){
+                foreach($subId as $id){
 
-                $customers = User::where('companyid', '=', $companyid)->where('role','4')->where('connectiontype',$billtype)->where('Sublocality',$id['id'])->join('connections', 'users.id', '=', 'connections.user_id')->get();
+                    $customers = User::where('companyid', '=', $companyid)->where('role','4')->where('connectiontype',$billtype)->where('Sublocality',$id['id'])->join('connections', 'users.id', '=', 'connections.user_id')->get();
 
-                $check=bill::where( 'companie_id',$companyid)->where('year',$year)->where('month',$month)->where('billType',$billtype)->where('Sublocality',$id['id'])->exists();
+                    $check=bill::where( 'companie_id',$companyid)->where('year',$year)->where('month',$month)->where('billType',$billtype)->where('Sublocality',$id['id'])->exists();
 
-            if($check==null){
-                    foreach($customers as $customer){
-                        $bill = new bill();
-                        $bill->year=$year;
-                        $bill->month=$month;
-                        $bill->netAmount=$customer->internetdiscont+$customer->cablediscount;
-                        $bill->recevieAmount=0;
-                        $bill->billStatus='unpaid';
-                        $bill->receviedBy='';
-                        $bill->user_id=$customer->user_id;
-                        $bill->companie_id=$companyid;
-                        $bill->sublocality=$id['id'];
-                        $bill->sublocalityName=$id['sublocality'];
-                        $bill->billType=$billtype;
-                        $bill->user_name=$customer->name;
-                        $bill->internetId=$customer->internetId;
+                if($check==null){
+                        foreach($customers as $customer){
+                            $bill = new bill();
+                            $bill->year=$year;
+                            $bill->month=$month;
+                            $bill->netAmount=$customer->internetdiscont+$customer->cablediscount;
+                            $bill->recevieAmount=0;
+                            $bill->billStatus='unpaid';
+                            $bill->receviedBy='';
+                            $bill->user_id=$customer->user_id;
+                            $bill->companie_id=$companyid;
+                            $bill->sublocality=$id['id'];
+                            $bill->sublocalityName=$id['sublocality'];
+                            $bill->billType=$billtype;
+                            $bill->user_name=$customer->name;
+                            $bill->internetId=$customer->internetId;
 
-                        $bill->save();
+                            $bill->save();
+                        }
                     }
                 }
+
+            }else{
+                foreach($customers as $customer){
+                    $bill = new bill();
+                    $bill->year=$year;
+                    $bill->month=$month;
+                    $bill->netAmount=$customer->internetdiscont+$customer->cablediscount;
+                    $bill->recevieAmount=0;
+                    $bill->billStatus='unpaid';
+                    $bill->receviedBy='';
+                    $bill->user_id=$customer->user_id;
+                    $bill->companie_id=$companyid;
+                    $bill->sublocality=$sublocality;
+                    $bill->sublocalityName=$sublocalityName;
+                    $bill->billType=$billtype;
+                    $bill->user_name=$customer->name;
+                    $bill->internetId=$customer->internetId;
+
+                    $bill->save();
             }
 
-        }else{
-            foreach($customers as $customer){
-                $bill = new bill();
-                $bill->year=$year;
-                $bill->month=$month;
-                $bill->netAmount=$customer->internetdiscont+$customer->cablediscount;
-                $bill->recevieAmount=0;
-                $bill->billStatus='unpaid';
-                $bill->receviedBy='';
-                $bill->user_id=$customer->user_id;
-                $bill->companie_id=$companyid;
-                $bill->sublocality=$sublocality;
-                $bill->sublocalityName=$sublocalityName;
-                $bill->billType=$billtype;
-                $bill->user_name=$customer->name;
-                $bill->internetId=$customer->internetId;
-
-                $bill->save();
         }
+        $generatedbill=bill::where( 'companie_id',$companyid)->where('year',$year)->where('month',$month)->leftJoin('Users', 'users.id', '=', 'bills.user_id')->join('connections', 'users.id', '=', 'connections.user_id')->get();
+        $locations = DB::table('locations')->where('company_id', '=', $companyid)->get();
 
-       }
-       $generatedbill=bill::where( 'companie_id',$companyid)->where('year',$year)->where('month',$month)->leftJoin('Users', 'users.id', '=', 'bills.user_id')->join('connections', 'users.id', '=', 'connections.user_id')->get();
-       $locations = DB::table('locations')->where('company_id', '=', $companyid)->get();
+        $message="The ".$billtype." bill for ".$year."-".$month." of ".$sublocalityName;
 
-       $message="The ".$billtype." bill for ".$year."-".$month." of ".$sublocalityName. " has been Created";
-
-       return view('transactions/bills')->with('generatedbill',$generatedbill)->with('locations',$locations)->with('message',  $message);;
-    }else{
-        $generatedbill="";
-       $locations = DB::table('locations')->where('company_id', '=', $companyid)->get();
-       return view('transactions/bills')->with('errors',$validator->errors())->with('generatedbill',$generatedbill)->with('locations',$locations);
-    // return response()->json(['error'=>$validator->errors()]);
-}
+        return view('transactions/bills')->with('generatedbill',$generatedbill)->with('locations',$locations)->with('message',  $message);;
+        }else{
+            $generatedbill="";
+        $locations = DB::table('locations')->where('company_id', '=', $companyid)->get();
+        return view('transactions/bills')->with('errors',$validator->errors())->with('generatedbill',$generatedbill)->with('locations',$locations);
+        // return response()->json(['error'=>$validator->errors()]);
+    }
 
 
     }

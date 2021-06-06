@@ -61,14 +61,14 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Query
     Route::get('/queries', 'App\Http\Controllers\QuerieController@index')->name('queries');
-    Route::get('/queries/create', 'App\Http\Controllers\QuerieController@create')->name('queries.create');
+    Route::post('/queries/create', 'App\Http\Controllers\QuerieController@create')->name('queries.create');
 
     //area
     Route::get('/area', 'App\Http\Controllers\ControllerArea@index')->name('area');
     Route::get('/area_create', 'App\Http\Controllers\ControllerArea@create')->name('area_create');
 
     //company
-    Route::get('/company', 'App\Http\Controllers\CompanyController@index')->name('company');
+    Route::get('company', 'App\Http\Controllers\CompanyController@index')->name('company');
     Route::post('/company.update', 'App\Http\Controllers\CompanyController@update')->name('company');
     //packages
     Route::get('/packages', 'App\Http\Controllers\PackagesController@index')->name('packages.index');
@@ -82,4 +82,9 @@ Route::group(['middleware' => 'auth'], function () {
     // customerCollectionn
     Route::get("/transactions/collectionn", 'App\Http\Controllers\customercollectionController@index')->name("collection");
     Route::get("/transactions/find", 'App\Http\Controllers\customercollectionController@find')->name("collection.find");
+    Route::get("/transactions/customerbill", 'App\Http\Controllers\customercollectionController@customerbill')->name("collection.customerbill");
+    Route::post("/transactions/collectionn/reveive", 'App\Http\Controllers\customercollectionController@reveive')->name("collection.reveive");
+    Route::post("/transactions/collectionn/newAmount", 'App\Http\Controllers\customercollectionController@newAmount')->name("collection.newAmount");
+
+
 });

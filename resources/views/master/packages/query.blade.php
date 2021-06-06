@@ -197,9 +197,14 @@
                                         const form = document.getElementById("pckg-form")
                                         form.addEventListener("submit", event => {
                                             event.preventDefault()
-                                            const data = $("#pckg-form").serialize()
+                                            const data = $("#pckg-form").serialize();
+                                            $.ajaxSetup({
+                                            headers: {
+                                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                                }
+                                            });
                                             $.ajax({
-                                                type: 'get',
+                                                type: 'post',
                                                 url: '{{ route('queries.create') }}',
                                                 data: data,
                                                 success: function(results) {

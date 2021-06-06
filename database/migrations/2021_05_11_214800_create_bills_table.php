@@ -27,7 +27,8 @@ class CreateBillsTable extends Migration
             $table->string('companie_id');
             $table->string('billType');
             $table->string('sublocality');
-            $table->string('sublocalityName')->nullable(); ;
+            $table->string('sublocalityName')->nullable();
+            $table->date('receivingDate')->nullable();
             $table->string('internetId');
 
 
