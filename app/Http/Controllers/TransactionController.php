@@ -37,6 +37,10 @@ class TransactionController extends Controller
         $companyid=Auth::user()->companyid;
         $action=$request->input('action');
 
+         $date = $month.' '.' 28'.' '.$year;
+         $fullDate=date('Y/m/d', strtotime($date));
+// return  $date;
+
         $validator = Validator::make($request->all(), [
             "month" => "required",
             "year" => "required",
@@ -89,7 +93,7 @@ class TransactionController extends Controller
                 foreach($subId as $id){
 
                     $customers = User::where('companyid', '=', $companyid)->where('role','4')->where('connectiontype',$billtype)->where('Sublocality',$id['id'])->join('connections', 'users.id', '=', 'connections.user_id')->get();
-
+// dd( $customers);
                     $check=bill::where( 'companie_id',$companyid)->where('year',$year)->where('month',$month)->where('billType',$billtype)->where('Sublocality',$id['id'])->exists();
 
                 if($check==null){
@@ -97,6 +101,7 @@ class TransactionController extends Controller
                             $bill = new bill();
                             $bill->year=$year;
                             $bill->month=$month;
+                            $bill->fullDate=$fullDate;
                             $bill->netAmount=$customer->internetdiscont+$customer->cablediscount;
                             $bill->recevieAmount=0;
                             $bill->billStatus='unpaid';
@@ -105,6 +110,7 @@ class TransactionController extends Controller
                             $bill->companie_id=$companyid;
                             $bill->sublocality=$id['id'];
                             $bill->sublocalityName=$id['sublocality'];
+                            $bill->address=$customer->address;
                             $bill->billType=$billtype;
                             $bill->user_name=$customer->name;
                             $bill->internetId=$customer->internetId;
@@ -119,6 +125,7 @@ class TransactionController extends Controller
                     $bill = new bill();
                     $bill->year=$year;
                     $bill->month=$month;
+                    $bill->fullDate=$fullDate;
                     $bill->netAmount=$customer->internetdiscont+$customer->cablediscount;
                     $bill->recevieAmount=0;
                     $bill->billStatus='unpaid';

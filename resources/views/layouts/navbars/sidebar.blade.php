@@ -294,21 +294,21 @@ $(document).ready(function () {
             <div class="collapse bg-light" id="navbar-reports">
                 <ul class="nav nav-sm flex-column ">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            {{ __('User Collection ') }}
+                    <a class="nav-link" href="{{route('CustomerbillReport')}}">
+                            {{ __('Customers  Collection ') }}
                         </a>
                     </li>
                 </ul>
                 <ul class="nav nav-sm flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{route('Defaulter')}}">
                             {{ __('Users Defaulter') }}
                         </a>
                     </li>
                 </ul>
                 <ul class="nav nav-sm flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{route('UserList')}}">
                             {{ __('Users List ') }}
                         </a>
                     </li>

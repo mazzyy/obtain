@@ -4,7 +4,7 @@
 @section('content')
    @include('layouts.headers.cards', [
         // 'title' => __('') . ' '.'Important!',
-        'description' => __('Customers bill record.'),
+        'description' => __('Customers Collection.'),
         'class' => 'col-lg-12 m-0 p-0p'
     ])
 
@@ -37,7 +37,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group ">
                                             <div class="card-heading">
-                                                <h4 class="card-title">Customers Collections</h4>
+                                                <h4 class="card-title">Unpaid and partial</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -159,7 +159,7 @@
                 <div class="col-md-12 " >
                     <div class="card pb-5">
                         <div class="card-heading ">
-                            <h4 class="card-title pt-2">Customers Collection History</h4>
+                            <h4 class="card-title pt-2">paid</h4>
                         </div>
                         <div class="card-block">
                             <div class="table-overflow">
@@ -535,7 +535,7 @@
                     $('.append').remove();
                     $.each( results, function( key, value ) {
 
-                        $("#searchtb").append('<tr class="append"><td>' + value.internetId + '</td><td>' + value.name + '</td> <td>' + value.Sublocality + '</td><td>' + value.address + '</td><td>' + value.contact + '</td> <td><a href="javascript:void(0)" onclick="selectID(' + value.userid + ');" class="btn btn-info">SELECT</a></td></tr >');
+                        $("#searchtb").append('<tr class="append"><td>' + value.internetId + '</td><td>' + value.name + '</td> <td>' + value.Sublocality + '</td><td>'+ value.address + '</td><td>' + value.contact + '</td> <td><a href="javascript:void(0)" onclick="selectID(' + value.userid + ');" class="btn btn-info">SELECT</a></td></tr >');
 
                     });
                     }
@@ -674,22 +674,9 @@
 
                         }
 
-
-
-
-
                         });
 
                         $('#exampleModal').modal('hide');
-
-
-
-
-
-
-
-
-
 
             }
 

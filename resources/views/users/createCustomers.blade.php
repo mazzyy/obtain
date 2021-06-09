@@ -26,7 +26,7 @@
             <div class="">
                 <div class="col-12 p-0 m-0">
 
-                    <div class="card">
+                    <div class="card" id="card">
 
                         <!-- Card header -->
                         <div>

@@ -18,6 +18,7 @@ class CreateBillsTable extends Migration
             $table->timestamps();
             $table->integer('year');
             $table->string('month');
+            $table->date('fullDate')->nullable();
             $table->integer('netAmount');
             $table->integer('recevieAmount');
             $table->string('billStatus');
@@ -27,6 +28,7 @@ class CreateBillsTable extends Migration
             $table->string('companie_id');
             $table->string('billType');
             $table->string('sublocality');
+            $table->string('address')->nullable();
             $table->string('sublocalityName')->nullable();
             $table->date('receivingDate')->nullable();
             $table->string('internetId');

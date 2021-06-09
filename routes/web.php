@@ -86,5 +86,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post("/transactions/collectionn/reveive", 'App\Http\Controllers\customercollectionController@reveive')->name("collection.reveive");
     Route::post("/transactions/collectionn/newAmount", 'App\Http\Controllers\customercollectionController@newAmount')->name("collection.newAmount");
 
+   //report
+    //    customer collection
+   Route::get("/CustomerbillReport", 'App\Http\Controllers\CustomerbillReportController@index')->name("CustomerbillReport");
+   Route::get("/CustomerbillReport/filter", 'App\Http\Controllers\CustomerbillReportController@filter')->name("CustomerbillReport.filter");
+    //defaulter
+   Route::get("/Defaulter", 'App\Http\Controllers\DefaulterReportController@index')->name("Defaulter");
+   Route::get("/Defaulter/filter", 'App\Http\Controllers\DefaulterReportController@filter')->name("Defaulter.filter");
+    //UserList
+   Route::get("/UserList", 'App\Http\Controllers\UserListController@index')->name("UserList");
+   Route::get("/UserList/filter", 'App\Http\Controllers\UserListController@filter')->name("UserList.filter");
+
 
 });
