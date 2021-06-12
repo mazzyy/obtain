@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserImportController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -47,9 +48,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     //createCustomers
     Route::post('/createCustomersUsers', 'App\Http\Controllers\UserController@create')->name('createCustomersUsers');
+    Route::get('/createCustomersUsers/show', 'App\Http\Controllers\UserController@show')->name('show');
+    Route::post('/createCustomersUsers/update', 'App\Http\Controllers\UserController@update')->name('customer.update');
+    Route::get('/createCustomersUsers/changestatus', 'App\Http\Controllers\UserController@changestatus')->name('customer.changestatus');
+
     //Excel import
     Route::post("/import", [UserController::class, "import"])->name("import");
-
+    Route::post("/import", [UserImportController::class, "store"])->name("store");
 
     //createEmployess
     Route::get('/createEmployees', 'App\Http\Controllers\EmployeesController@index')->name('createEmployees');
@@ -73,6 +78,7 @@ Route::group(['middleware' => 'auth'], function () {
     //packages
     Route::get('/packages', 'App\Http\Controllers\PackagesController@index')->name('packages.index');
     Route::post('/packages', 'App\Http\Controllers\PackagesController@store')->name('packages.store');
+    Route::post('/packages/update', 'App\Http\Controllers\PackagesController@update')->name('packages.update');
 
     //Transactions
     Route::any("/transactions/bills", [TransactionController::class, "index"])->name("bills.index");

@@ -349,6 +349,88 @@ $(document).ready(function () {
             </div>
         </li>
 
+
+
+          {{-- Additional Reports --}}
+          <li class="nav-item">
+            <a class="nav-link active collapsed" href="#navbar-Additional " data-toggle="collapse" role="button"
+                aria-expanded="false" aria-controls="navbar-master">
+                <i class="fas fa-clone  text-primary"></i>
+                <span class=" nav-link-text" >{{ __('Additional Reports') }}</span>
+            </a>
+
+            <div class="collapse bg-light" id="navbar-Additional">
+                <ul class="nav nav-sm flex-column ">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('SALES REPORT') }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="collapse bg-light" id="navbar-Additional">
+                <ul class="nav nav-sm flex-column ">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __(' EXPENCE REPORT') }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="collapse bg-light" id="navbar-Additional">
+                <ul class="nav nav-sm flex-column ">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('BUSINESS DETAILS CALENDAR WISE') }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="collapse bg-light" id="navbar-Additional">
+                <ul class="nav nav-sm flex-column ">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('INCOME REPORT') }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="collapse bg-light" id="navbar-Additional">
+                <ul class="nav nav-sm flex-column ">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('PIRCHASING REPORT LINK WITH AREA AND EXPERIENCE ') }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="collapse bg-light" id="navbar-Additional">
+                <ul class="nav nav-sm flex-column ">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('AREA WISE INCOME REPORT ') }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="collapse bg-light" id="navbar-Additional">
+                <ul class="nav nav-sm flex-column ">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            {{ __('STAFF PERFORMANCE REPORT') }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
+        </li>
+
         <li class="nav-item">
             <a class="nav-link" href="{{ route('area') }}">
                 <i class="fas fa-globe-americas text-primary"></i> <span style="color:black">{{ __('Locations') }}</span>

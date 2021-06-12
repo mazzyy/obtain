@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Package;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class PackagesController extends Controller
@@ -42,4 +43,21 @@ class PackagesController extends Controller
             return response()->json(['error'=>$validator->errors()]);
         }
     }
+
+    public function update(Request $request){
+        $company_id=Auth::user()->companyid;
+        $name=$request->input('pckg-name');
+        $price=$request->input('pckg-price');
+        $type=$request->input('pckg-type');
+        $id=$request->input('nill');
+       if(DB::table('Packages')->where('company_id',$company_id)->where('id',$id)->exists()){
+
+        DB::table('Packages')->where('id',$id)->update(['type' => $type,'price' => $price,'package'=>$name]);
+
+        return  'updated successfully';
+       }
+        return  'not updated';
+    }
+
+
 }

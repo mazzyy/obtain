@@ -53,16 +53,16 @@
                                                 <th scope="row">
                                                     <div class="media-body">
                                                         <i class="bg-warning"></i>
-                                                        <span class="name mb-0 text-sm"> {{ $package->package }}</span>
+                                                    <span class="name mb-0 text-sm" id="{{$package->id}}-pkg"> {{ $package->package }}</span>
                                                     </div>
                                                 </th>
-                                                <td class="budget">
+                                                <td class="budget"  id="{{$package->id}}-type">
                                                     {{ $package->type }}
                                                 </td>
                                                 <td>
                                                     <span class="badge badge-dot mr-4">
 
-                                                        <span class="status">{{ $package->price }}</span>
+                                                        <span class="status"  id="{{$package->id}}-price">{{ $package->price }}</span>
                                                     </span>
                                                 </td>
 
@@ -76,9 +76,8 @@
                                                             <i class="fas fa-ellipsis-v"></i>
                                                         </a>
                                                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                                            <a class="dropdown-item" href="#">Edit</a>
-                                                            {{-- <a class="dropdown-item" href="#">Delete</a> --}}
-                                                            {{-- <a class="dropdown-item" href="#">Something else here</a> --}}
+                                                            <a class="dropdown-item" data-toggle="modal" data-target="#modal-form-update" onclick="Edit({{$package->id}})">Edit</a>
+
                                                         </div>
                                                     </div>
                                                 </td>
@@ -180,8 +179,8 @@
                             </div> --}}
                                                         {{-- <input class="form-control" placeholder="Package type" type="text" name="pckg-type" /> --}}
                                                         <select name="pckg-type" class="form-control" required>
-                                                            <option value="internet">Internet</option>
-                                                            <option value="tv">TV</option>
+                                                            <option value="Internet">Internet</option>
+                                                            <option value="Tv">TV</option>
                                                             {{-- <option value="both">Both</option> --}}
                                                         </select>
                                                     </div>
@@ -239,8 +238,150 @@
                 </div>
             </div>
             {{-- end modal --}}
+
+
+
+                {{-- modal  update--}}
+                <div class="col-md-4">
+                    {{-- <button type="button" class="btn btn-block btn-default" data-toggle="modal" data-target="#modal-form">Form</button> --}}
+                    <div class="modal fade" id="modal-form-update" tabindex="-1" role="dialog" aria-labelledby="modal-form-update"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">New Package</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body p-0">
+
+
+                                    <div class="card bg-secondary shadow border-0">
+
+                                        <div class="card-body px-lg-5 py-lg-5">
+
+                                            <div class="alert alert-danger print-error-msg" style="display:none">
+
+                                                <ul></ul>
+                                            </div>
+                                            <form method="GET" action="{{route('packages.update')}}" id="pckg-form-update">
+
+
+                                                {{-- packg name --}}
+                                                <div class="form-group mb-3">
+                                                    <div class="input-group input-group-alternative">
+
+                                                        <input class="form-control" placeholder="Package name" type="text"
+                                                            name="pckg-name" required autocomplete="off" id="pckg-name" />
+                                                    </div>
+                                                </div>
+
+                                                {{-- Package price --}}
+                                                <div class="form-group mb-3">
+                                                    <div class="input-group input-group-alternative">
+
+                                                        <input class="form-control" placeholder="Package price" type="text"
+                                                            name="pckg-price" required  autocomplete="off" id="pckg-price"/>
+                                                    </div>
+                                                </div>
+
+                                                {{-- Package type --}}
+                                                <div class="form-group mb-3">
+                                                    <div class="input-group input-group-alternative">
+
+
+                                                        <select name="pckg-type" class="form-control" required id="pckg-type">
+                                                            <option value="Internet">Internet</option>
+                                                            <option value="Tv">TV</option>
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+
+                                            <input type="hidden" id="nill" name="nill">
+                                                <div class="text-center">
+                                                    <button type="submit" class="btn btn-primary my-4">Save</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- end modal --}}
             @include('layouts.footers.auth')
         </div>
+
+        <script>
+            function Edit(id){
+                // console.log(id);
+
+                pkg=document.getElementById(id+'-pkg').innerHTML;
+                type=document.getElementById(id+'-type').textContent;;
+                price=document.getElementById(id+'-price').innerHTML;
+                type=type.trim();
+
+                pkg=document.getElementById('pckg-name').value=pkg;
+                type=document.getElementById('pckg-type').value=type;
+                price=document.getElementById('pckg-price').value=price;
+                id=document.getElementById('nill').value=id;
+
+            }
+
+        </script>
+
+
+<script>
+    $('#pckg-form-update').on('submit', function(event) {
+
+        event.preventDefault();
+        var data = $('#pckg-form-update').serialize();
+        // console.log(data);
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: 'post',
+            url: '{{ route('packages.update') }}',
+            data: data,
+            success: function(value) {
+                // console.log('testingupdate'+values);
+
+                $('#modal-form-update').modal('hide');
+                $('#ajaxrefresh').load(' #table');
+                // document.getElementById(id).innerHTML='<th>' + value.internetId + '</th><td>' + value.name + '</td><td>' + value.address + '</td><td>' +value.contact+'</td><td>'+value.connectiontype+'</td><td>'+value.installDate+'</td><td>'+value.internetdiscont+'</td><td>'+value.cablediscount+'</td><td>'+value.status+'</td>'+' <td class="bg-success text-right"><div class="dropdown"><a class="btn btn-sm btn-icon-only text-light"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow"><a class="dropdown-item"  data-toggle="modal" data-target="#modal-form-update" onclick="Edit('+id+')" >Edit</a><a class="dropdown-item" onclick="status('+id+',active)" >Active</a><a class="dropdown-item" >Deactive</a><a class="dropdown-item" >Delete</a><a class="dropdown-item" >Collection</a><a class="dropdown-item" >Profile</a><a class="dropdown-item" >print</a><a class="dropdown-item" href="#">Delete</a></div></div></td>';
+
+            }
+              //Laravel validation error function
+
+
+
+        }); // end ajax
+
+
+    //popup close after 5 seconds
+        setTimeout(function() {
+            $('.popup').remove();
+        }, 5000);
+    });
+
+</script>
     @endsection
 
     @push('js')

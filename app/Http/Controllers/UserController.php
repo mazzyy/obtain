@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+
 // use Illuminate\Foundation\Validation\ValidatesRequests;
 
 
@@ -149,5 +151,101 @@ class UserController extends Controller
     {
         Excel::import(new UserImport, $request->file);
         return back();
+    }
+
+    public function show(Request $request){
+
+        $selectedUser=DB::table('users')->where('users.id',$request->input('id'))->join('connections', 'users.id', '=', 'connections.user_id')->get();
+
+        return $selectedUser;
+    }
+    public function update(Request $request){
+        $companyid = Auth::user()->companyid;
+        $userid=$request->input('aasdjaIdsas');
+        $name=$request->input('name');
+        $email=$request->input('email');
+        $connectionId=$request->input('nill');
+
+    //    return  $request->input('cmbPackageint');
+         //interenet
+
+         if ($request->input('cmbPackageint')) {
+            list($pkgname, $internetprice) = (explode("-", $request->input('cmbPackageint')));
+            $internetdiscountedPrice = $internetprice - (int)($request->input('txtAmountint'));
+        } else {
+            $pkgname = 0;
+            $internetprice = 0;
+            $internetdiscountedPrice = 0;
+        }
+
+        //cable
+        if ($request->input('cmbPackage')  ) {
+            list($cablepkgname, $cablenetprice) = (explode("-", $request->input('cmbPackage')));
+            $cablediscountedPrice = $cablenetprice - (int)($request->input('txtAmount'));
+        } else {
+            $cablepkgname = 0;
+            $cablenetprice = 0;
+            $cablediscountedPrice = 0;
+        }
+
+        $updated=User::where('companyid',  $companyid)
+        ->where('id', $userid)
+        ->update(['name' =>  $name,'email' =>  $email]);
+
+        $connections = connections::find($connectionId);
+
+                $connections->name = $request->input('name');
+                $connections->company_id = $companyid;
+                $connections->internetId = $request->input('internetId');
+                $connections->Sublocality = $request->input('Sublocality');
+                $connections->internetId = $request->input('internetId');
+                $connections->address = $request->input('address');
+                $connections->contact = $request->input('txtPhone1');
+                $connections->contact2 = $request->input('txtPhone2');
+                $connections->connectiontype = $request->input('type');
+                $connections->installationAmount = $request->input('installationAmount');
+                $connections->installDate = $request->input('installationDate');
+                $connections->rechargeDate = $request->input('rechargeDate');
+                $connections->otherAmount = $request->input('otherAmount');
+                $connections->wifiAmount = $request->input('wifiAmount');
+                $connections->wireAmount = $request->input('wireAmount');
+                $connections->connectionProvider = $request->input('provider');
+                $connections->boxNumber = $request->input('box');
+
+                $connections->internetPackage = $pkgname;
+                $connections->internetPrice = $internetprice;
+                $connections->internetdiscont = $internetdiscountedPrice;
+                $connections->cablePackage = $cablepkgname;
+                $connections->cablePrice = $cablenetprice;
+                $connections->cablediscount = $cablediscountedPrice;
+                $connections->save();
+
+        return $connections;
+    }
+
+    public function changestatus(Request $request){
+        $status=$request->input('desicion');
+        $id=$request->input('id');
+
+            switch ($status) {
+
+                case "deactive":
+                    $userdata=connections::where('user_id',$id)->update(['status' => 'Deactive']);
+                    return 'deactive';
+                    break;
+
+                case "active":
+                    $userdata=connections::where('user_id',$id)->update(['status' => 'Active']);
+                    return "active";
+                    break;
+
+                case "delete":
+                    $userdata=connections::where('user_id',$id)->delete();
+                    user::where('id',$id)->delete();
+                    return "delete";
+                    break;
+            }
+
+    return $request;
     }
 }
