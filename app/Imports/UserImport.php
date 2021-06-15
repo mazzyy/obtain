@@ -2,10 +2,12 @@
 
 namespace App\Imports;
 
+use App\Models\logs;
 use App\Models\connections;
-use App\Models\location;
+use App\Models\Package;
 use App\Models\User;
 use App\User as AppUser;
+// use Carbon\Traits\Date;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -16,7 +18,13 @@ use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Imports\HeadingRowFormatter;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Throwable;
+
+
 
 
 class UserImport implements ToModel, WithHeadingRow, SkipsOnError, SkipsOnFailure
@@ -28,22 +36,67 @@ class UserImport implements ToModel, WithHeadingRow, SkipsOnError, SkipsOnFailur
      *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
+
+
+
+
     public function model(array $row)
     {
         $email=  (string)$row["email"];
         $companyid=Auth::user()->companyid;
-        // $packages = DB::table('package')->where('company_id', '=', $companyid)->get();
-        //     foreach($packages as $pk){
-        //     if($pk->id==)
 
 
-        //     }
+        $installationdate=Date::excelToDateTimeObject( $row["installationdate"]);
+        $installationdate=$installationdate->format('Y-m-d');
 
+        $rechargedate=Date::excelToDateTimeObject($row["rechargedate"]);
+        $rechargedate=$rechargedate->format('Y-m-d');
+        $cable_package=package::where('id',(integer)$row["cable_packageid"])->where(  'company_id',$companyid)->get();
 
+        $package=package::where('id',(integer)$row["internet_packageid"])->where(  'company_id',$companyid)->get();
+        $type="";
+        if(isset($package[0])){
+        $packageName=$package[0]->package;
+        $packagePrice=$package[0]->price;
+        $afterDiscount=(integer)$packagePrice- (integer)$row["internet_discount"];
+        $type="Internet";
+            }else{
+                $packageName=0;
+                $packagePrice=0;
+                $afterDiscount=0;
+            }
+
+        if(isset($cable_package[0])){
+            $cable_packageName=$cable_package[0]->package;
+            $cable_packagePrice=$cable_package[0]->price;
+            $cable_packageafterDiscount=(integer)$cable_packagePrice- (integer)$row["cable_discount"];
+            $type="Cable";
+
+            }else{
+                $cable_packageName=0;
+                $cable_packagePrice=0;
+                $cable_packageafterDiscount=0;
+            }
+            if(isset($cable_package[0]) && isset($package[0]) ){
+
+                $type="Both";
+            }
+// dd($cable_package);
        if(DB::table('users')->where('email', $email)->exists()){
 
 
+
+            $logs =new logs();
+            $logs->email=(string)$row["email"];
+            $logs->name= (string)$row["name"];
+            $logs->extra= $rechargedate;
+            $logs->save();
+
+
+
+
        }else{
+
 
                     $companyid = $companyid;
                     $companyname = Auth::user()->companyName;
@@ -52,17 +105,18 @@ class UserImport implements ToModel, WithHeadingRow, SkipsOnError, SkipsOnFailur
                     $internetid=  (string)$row["internetid"];
                     $address=  (string)$row["address"];
                     $txtphone1=  (string)$row["txtphone1"];
-                    $txtphone2=  (string)$row["txtphone2"];
-                    $type=  (string)$row["type"];
+                    // $txtphone2=  (string)$row["txtphone2"];
+                    // $type=  (string)$row["type"];
                     $installationamount=  (string)$row["installationamount"];
-                    $installationdate=  (string)$row["installationdate"];
-                    $rechargedate=  (string)$row["rechargedate"];
+                    $installationdate=  $installationdate;
+                    $rechargedate=  $rechargedate;
                     $otheramount=  (string)$row["otheramount"];
                     $wifiamount=  (string)$row["wifiamount"];
                     $wireamount=  (string)$row["wireamount"];
-                    $status=  (string)$row["status"];
+                    // $status=  (string)$row["status"];
                     $provider=  (string)$row["provider"];
                     $box=  (string)$row["box"];
+                    $status=  'Active';
 
 
             // dd($name);
@@ -88,7 +142,7 @@ class UserImport implements ToModel, WithHeadingRow, SkipsOnError, SkipsOnFailur
                     $connections->internetId = $internetid;
                     $connections->address = $address;
                     $connections->contact = $txtphone1;
-                    $connections->contact2 = $txtphone2;
+                    // $connections->contact2 = $txtphone2;
                     $connections->connectiontype = $type;
                     $connections->installationAmount = $installationamount;
                     $connections->installDate = $installationdate;
@@ -99,14 +153,25 @@ class UserImport implements ToModel, WithHeadingRow, SkipsOnError, SkipsOnFailur
                     $connections->status = $status;
                     $connections->connectionProvider = $provider;
                     $connections->boxNumber = $box;
-                    $connections->internetPackage = 1;
-                    $connections->internetPrice = 1;
-                    $connections->internetdiscont = 1;
-                    $connections->cablePackage = 1;
-                    $connections->cablePrice = 1;
-                    $connections->cablediscount = 1;
+                    $connections->internetPackage = $packageName;
+                    $connections->internetPrice =  $packagePrice;
+                    $connections->internetdiscont = $afterDiscount;
+
+                    $connections->cablePackage =   $cable_packageName;
+                    $connections->cablePrice = $cable_packagePrice;
+                    $connections->cablediscount =  $cable_packageafterDiscount;
                     $connections->save();
+
+                    // dd( $rechargedate);
+                    $logs =new logs();
+                    $logs->email=(string)$row["email"];
+                    $logs->name= (string)$row["email"];
+                    $logs->extra= $rechargedate;
+                    $logs->save();
+
              }
+            //  $exists = Storage::disk('local')->exists('file.txt',$error);
+
 }
 
 

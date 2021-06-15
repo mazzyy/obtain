@@ -80,24 +80,24 @@
 
                                             @foreach ($Customers as $Customer)
                                                 <tr id="{{$Customer->id}}">
-                                                    <th scope="row">
+                                                <th scope="row" id="{{$Customer->id}}-internetId">
                                                         <div class="media-body">
                                                             <i class="bg-warning"></i>
                                                             <span class="name mb-0 text-sm" min="1" max="12">
                                                                 {{ $Customer->connections->internetId }}</span>
                                                         </div>
                                                     </th>
-                                                    <td class="budget">
+                                                    <td class="budget" id="{{$Customer->id}}-name">
                                                         {{ $Customer->name }}
                                                     </td>
-                                                    <td>
+                                                    <td id="{{$Customer->id}}-address" >
                                                         <span class="badge badge-dot mr-4">
 
                                                             <span
                                                                 class="status">{{ $Customer->connections->address }}</span>
                                                         </span>
                                                     </td>
-                                                    <td>
+                                                    <td id="{{$Customer->id}}-contact">
                                                         <span class="badge badge-dot mr-4">
 
                                                             <span class="status" id="changex">
@@ -107,10 +107,10 @@
                                                             </span>
                                                         </span>
                                                     </td>
-                                                    <td>
+                                                    <td id="{{$Customer->id}}-type">
                                                         {{ $Customer->connections->connectiontype }}
                                                     </td>
-                                                    <td>
+                                                    <td >
                                                         {{ $Customer->connections->installDate }}
                                                     </td>
                                                     <td>
@@ -137,7 +137,7 @@
                                                                 class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                                                 <a class="dropdown-item"  data-toggle="modal" data-target="#modal-form-update"  onclick="Edit({{$Customer->id}})" > Edit </a>
                                                                 <a class="dropdown-item"   onclick="status({{$Customer->id}},'active')" >Active</a>
-                                                                <a class="dropdown-item"   onclick="status({{$Customer->id}},'deactive')">Deactive</a>
+                                                                <a class="dropdown-item"  data-toggle="modal" data-target="#modal-deactivate"  onclick="status({{$Customer->id}},'deactive')">Deactive</a>
                                                                 {{-- <a class="dropdown-item"   onclick="status({{$Customer->id}},'delete')">Delete</a> --}}
                                                                 <a class="dropdown-item"  >Collection</a>
                                                                 <a class="dropdown-item"  >profile</a>
@@ -482,7 +482,7 @@
                                                         <button type="reset" id="btncancel"
                                                             class="btn btn-danger">Cancel</button>
                                                         <button type="submit" id="btnSave"
-                                                            class="btn btn-info">Submit</button>
+                                                            class="btn btn-info"  >Submit</button>
                                                     </div>
 
                                                     <button hidden="" id="hidemodle" data-dismiss="modal">
@@ -530,7 +530,7 @@
                                                 @csrf
                                                 <div class="form-group">
                                                     <input type="file" name="file" class="form-control"
-                                                        accept=".xlsx, .xls, .csv">
+                                                        accept=".xlsx, .xls, .csv" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <input type="submit" value="Submit"
@@ -538,7 +538,11 @@
 
                                                 </div>
                                             </form>
-
+                                                <div class="pt--7 pt-5 border-top">
+                                                    <a href="{{asset('Customers_Import.xlsx')}}" download>
+                                                        <i class="fas fa-file-excel text-success">Customers csv format download</i>
+                                                    </a>
+                                                </div>
 
                                         </div>
                                     </div>
@@ -690,7 +694,7 @@
                                                                 <div class="col-md-4">
                                                                     <div class="form-group ">
                                                                         <label>Installation Date</label>
-                                                                        <input type="date" class="form-control datepicker-1"
+                                                                        <input  type="date" class=" pl-0 pr-0 form-control datepicker-1"
                                                                             id="update-txtDtAddDate" maxlength="10"
                                                                             name="installationDate"
                                                                             required
@@ -901,6 +905,91 @@
                 </div>
                 {{-- end modal --}}
 
+
+                <!-- Modal deactivate-->
+            <div class="modal fade" id="modal-deactivate" tabindex="-1" role="dialog" aria-labelledby="modal-deactivateeLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="modal-deactivatelLabel">Details for Deactivation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                            <form role="form" id="Deactiave-update" autocomplete="off" _lpchecked="1" method="get" action="{{route('Deactiave.update')}}">
+                                    <div class="form-row ">
+                                        <div class="col-md-3">
+                                            <div class="form-group ">
+                                                <label>ID</label>
+                                                <input name="id" type="text" class="form-control" placeholder="ID" id="txtcnnID" readonly="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group ">
+                                                <label>Name</label>
+                                                <input name="name" type="text" class="form-control" placeholder="Name" id="txtcnnName" readonly="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group ">
+                                                <label>Address</label>
+                                                <input  name="address" type="text" class="form-control" placeholder="Address" id="txtcnnAddress" readonly="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group ">
+                                                <label>Cell/Ph</label>
+                                                <input  name="cell"  type="text" class="form-control" placeholder="Cell #" id="txtcnnCell" readonly="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row ">
+                                        <div class="col-md-6">
+                                            <div class="form-group ">
+                                                <label>Leaving Date</label>
+                                                <input name="ldate" type="date" class="form-control datepicker-1" id="dtcnnLeaving" data-provide="datepicker" onkeyup="var v = this.value;if (v.match(/^\d{2}$/) !== null) {this.value = v + '/';} else if (v.match(/^\d{2}\/\d{2}$/) !== null) { this.value = v + '/';}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group ">
+                                                <label>Leaving Reason</label>
+                                        <input list="browsers" name="browser" id="browser" class="form-control datepicker-1">
+                                            <datalist id="browsers">
+                                                    <option value="Temporary close">
+                                                    <option value="Shift from Current House">
+                                                    <option value="Block Due to the payments">
+                                                    <option value="Card expired">
+                                            </datalist>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row ">
+                                        <div class="col-md-12">
+                                            <div class="form-group ">
+                                                <label>Other Comments</label>
+                                                <input type="text" class="form-control" placeholder="Enter any Comments" id="txtcnnComnt">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="text-right mrg-top-15">
+                                        <input type="submit"  value="Save" class="btn btn-info">
+                                    </div>
+                                </form>
+                                <button hidden="" id="hidemodlexy" data-dismiss="modal">
+
+                            </button></div>
+                        </div>
+                    </div>
+
+                </div>
+                </div>
+            </div>
 
             </div>
             @include('layouts.footers.auth')
@@ -1178,6 +1267,22 @@ function typeCheckUpdate(type){
 <script>
 
     function status(id,desicion){
+        idd=id
+        customerId=document.getElementById(idd+'-internetId').value;
+
+        name=document.getElementById(idd+'-name').textContent;
+        address=document.getElementById(idd+'-address').textContent;
+        contact=document.getElementById(idd+'-contact').textContent;
+
+        document.getElementById('txtcnnID').value=idd;
+        document.getElementById('txtcnnName').value=name.toString().trim();
+        document.getElementById('txtcnnAddress').value=address.toString().trim();
+        document.getElementById('txtcnnCell').value=contact.toString().trim();
+
+        // name1=document.getElementById('1509-name').value;
+    // console.log(name.toString().trim());
+
+
         console.log(id+desicion);
 
         $.ajaxSetup({
@@ -1219,6 +1324,44 @@ function typeCheckUpdate(type){
 </script>
 
 
+<script>
+
+    $('#Deactiave-update').on('submit', function(event) {
+        // $("#btnSubmit").prop("disabled", true);
+
+        event.preventDefault();
+        var data = $('#Deactiave-update').serialize();
+        // console.log(data);
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: 'post',
+            url: '{{ route('Deactiave.update') }}',
+            data: data,
+            success: function(value) {
+                console.log('testingupdate'+value);
+
+                $('#modal-deactivate').modal('hide');
+                // $('#ajaxrefresh').load(' #table');
+                // document.getElementById(id).innerHTML='<th>' + value.internetId + '</th><td>' + value.name + '</td><td>' + value.address + '</td><td>' +value.contact+'</td><td>'+value.connectiontype+'</td><td>'+value.installDate+'</td><td>'+value.internetdiscont+'</td><td>'+value.cablediscount+'</td><td>'+value.status+'</td>'+' <td class="bg-success text-right"><div class="dropdown"><a class="btn btn-sm btn-icon-only text-light"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow"><a class="dropdown-item"  data-toggle="modal" data-target="#modal-form-update" onclick="Edit('+id+')" >Edit</a><a class="dropdown-item" onclick="status('+id+',active)" >Active</a><a class="dropdown-item" >Deactive</a><a class="dropdown-item" >Delete</a><a class="dropdown-item" >Collection</a><a class="dropdown-item" >Profile</a><a class="dropdown-item" >print</a><a class="dropdown-item" href="#">Delete</a></div></div></td>';
+
+            }
+              //Laravel validation error function
+
+
+
+        }); // end ajax
+
+
+    //popup close after 5 seconds
+
+    });
+
+</script>
 
 
 

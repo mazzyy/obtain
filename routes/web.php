@@ -102,6 +102,10 @@ Route::group(['middleware' => 'auth'], function () {
     //UserList
    Route::get("/UserList", 'App\Http\Controllers\UserListController@index')->name("UserList");
    Route::get("/UserList/filter", 'App\Http\Controllers\UserListController@filter')->name("UserList.filter");
+    //Deactivate
+   Route::get("/Deactiave", 'App\Http\Controllers\DeactivateController@index')->name("Deactiave");
+   Route::post("/Deactiave/update", 'App\Http\Controllers\DeactivateController@update')->name("Deactiave.update");
+
 
 
 });

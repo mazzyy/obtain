@@ -315,7 +315,7 @@ $(document).ready(function () {
                 </ul>
                 <ul class="nav nav-sm flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                    <a class="nav-link" href="{{route('Deactiave')}}">
                             {{ __('User Deactivate List') }}
                         </a>
                     </li>

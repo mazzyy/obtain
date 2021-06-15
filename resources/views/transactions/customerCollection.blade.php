@@ -509,7 +509,8 @@
         </div> --}}
       </div>
     </div>
-  </div>
+</div>
+
 
 <script>
     $('#txtSrchInternet').on('keyup', function(event) {
@@ -564,9 +565,9 @@
                 document.getElementById('txtrcv').value=0;
                 document.getElementById('txtRID').value=0;
                 document.getElementById('amtrd').value=0;
-                // console.log(id);
+                console.log(id);
                 event.preventDefault();
-                url = '?name='+id;
+                url = {name:id};
                     // alert(data);
                 $.ajaxSetup({
                     headers: {
@@ -579,10 +580,11 @@
                     data: url,
                     success: function(results) {
                         var sum=0;
+                        console.log(results);
                         $.each( results, function( key, value ) {
                         if(value.billStatus=='paid'){
 
-                            // console.log(value.billStatus);
+                            console.log(value.billStatus);
                             $(".list").append('<tr class="append"><td>' + value.id + '</td><td>' + value.user_id + '</td><td>' + value.user_name + '</td> <td>' + value.internetId + '</td><td>' + value.sublocalityName + '</td><td>' +value.month+'-'+ value.year + '</td><td>'+value.billType+'</td><td>'+value.recevieAmount+'</td><td>'+value.updated_at+'</td><td>'+value.billStatus+'</td> <td>'+value.receviedBy+'</td> <td class="text-right"><div class="dropdown"><a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-ellipsis-v"></i></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow"><a class="dropdown-item" href="#">unpaid</a><a class="dropdown-item" href="#">dublicate print </a></div></div></td>');
 
                         }else{
@@ -594,6 +596,7 @@
                            document.getElementById('cusId').value=value.user_id;
                            document.getElementById('txtrcv').value=sum;
                            document.getElementById('txtRID').value=value.id;
+                           console.log('unpaid and partial');
                         }
 
 

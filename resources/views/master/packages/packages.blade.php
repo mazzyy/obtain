@@ -22,7 +22,7 @@
                                 </div>
                                 <div class="col-4 text-right">
 
-                                    <button href="" class=" mt-3 mb-3 mr-2 pr-3 btn btn-icon   btn-default btn-sm"
+                                    <button  class=" mt-3 mb-3 mr-2 pr-3 btn btn-icon   btn-default btn-sm"
                                         type="button">
                                         <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
                                         <span class="btn-inner--text" data-toggle="modal" data-target="#modal-form">Add new
@@ -39,23 +39,28 @@
                                 <table class="table align-items-center table-flush">
                                     <thead class="thead-light">
                                         <tr>
-
-                                            <th scope="col" class="sort" data-sort="budget">Package</th>
-                                            <th scope="col" class="sort" data-sort="status">Type</th>
-                                            <th scope="col" class="sort" data-sort="Locality">Price</th>
-                                            <th scope="col" class="sort" data-sort="completion">Action</th>
+                                            <th scope="col" class="sort" data-sort="Id">Id</th>
+                                            <th scope="col" class="sort" data-sort="Package">Package</th>
+                                            <th scope="col" class="sort" data-sort="Type">Type</th>
+                                            <th scope="col" class="sort" data-sort="Price">Price</th>
+                                            <th scope="col" class="sort" data-sort="Action">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody class="list">
 
                                         @foreach ($packages as $package)
                                             <tr>
+                                                <th>
+                                                    {{$package->id}}
+                                                </th>
                                                 <th scope="row">
+
                                                     <div class="media-body">
                                                         <i class="bg-warning"></i>
                                                     <span class="name mb-0 text-sm" id="{{$package->id}}-pkg"> {{ $package->package }}</span>
                                                     </div>
                                                 </th>
+
                                                 <td class="budget"  id="{{$package->id}}-type">
                                                     {{ $package->type }}
                                                 </td>
@@ -189,7 +194,7 @@
 
 
                                                 <div class="text-center">
-                                                    <button type="submit" class="btn btn-primary my-4">Save</button>
+                                                    <button type="submit" class="btn btn-primary my-4"  id="btnSubmit">Save</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -345,7 +350,9 @@
 
 
 <script>
+
     $('#pckg-form-update').on('submit', function(event) {
+        // $("#btnSubmit").prop("disabled", true);
 
         event.preventDefault();
         var data = $('#pckg-form-update').serialize();
