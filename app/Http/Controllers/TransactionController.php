@@ -142,7 +142,7 @@ class TransactionController extends Controller
             }
 
         }
-        $generatedbill=bill::where( 'companie_id',$companyid)->where('year',$year)->where('month',$month)->leftJoin('Users', 'users.id', '=', 'bills.user_id')->join('connections', 'users.id', '=', 'connections.user_id')->get();
+        $generatedbill=bill::where( 'companie_id',$companyid)->where('year',$year)->where('month',$month)->leftJoin('Users', 'users.id', '=', 'bills.user_id')->join('connections', 'users.id', '=', 'connections.user_id')->orderBy('connections.address', 'ASC')->get();
         $locations = DB::table('locations')->where('company_id', '=', $companyid)->get();
 
         $message="The ".$billtype." bill for ".$year."-".$month." of ".$sublocalityName;

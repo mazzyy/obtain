@@ -60,7 +60,7 @@
                                 <div class="table" id="table">
                                     <div class="row">
                                         <div class="col-md-12 ml-auto mr-auto">
-                                        <form method="GET" action="{{route('UserList.filter')}}" id="recevingForm">
+                                        <form method="GET" action="{{route("Deactiave.filter")}}" id="recevingForm">
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="row">
@@ -95,7 +95,7 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-3">
+                                                            {{-- <div class="col-md-3">
                                                                 <div class="form-group ">
                                                                     <label>Report Type</label>
                                                                     <select name="rtype" id="cmbRptType" class="form-control">
@@ -107,7 +107,7 @@
                                                                         <option value="Bad">Bad Debts</option>
                                                                     </select>
                                                                 </div>
-                                                            </div>
+                                                            </div> --}}
                                                             <div class="col-md-3">
                                                                 <div class="form-group">
                                                                     <label>Connection Type</label>
@@ -134,29 +134,7 @@
                                                     </div>
                                                 </div>
                                             </form>
-                                            {{-- <div class="pull-left-sm pl-2">
-                                                <p>SUMMARY</p>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <table id="tbSum" class=" table-responsive table table-hover text-dark">
-                                                            <thead>
-                                                                <tr >
 
-                                                                    <th style=" padding-left: 1rem !important;padding-right: 1rem !important; ">Total Connections</th>
-                                                                    <th style=" padding-left: 1rem !important;padding-right: 1rem !important; ">Total NetAmount</th>
-                                                                    <th style=" padding-left: 1rem !important;padding-right: 1rem !important; ">Total Received</th>
-                                                                    <th style=" padding-left: 1rem !important;padding-right: 1rem !important; ">Total Remaining</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr id='stat'>
-
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -210,17 +188,17 @@
                                         <thead class="thead-light">
                                             <tr>
                                                 <th class="col1">Sno</th>
-                                                <th>ID</th>
-                                                <th>Internet ID</th>
                                                 <th>Name</th>
-                                                <th name="addressCol">Address</th>
-                                                <th>Install Date</th>
-                                                <th>Mobile No</th>
-                                                <th name="PkgCable">Package-Cable</th>
-                                                <th name="AmountCable">Amount-Cable</th>
-                                                <th name="PkgInternet">Package-Internet</th>
-                                                <th name="AmountInternet">Amount-Internet</th>
-                                                <th name="total">Total</th>
+                                                <th>Customer_id</th>
+                                                <th>Sublocality</th>
+                                                <th>Address</th>
+
+                                                <th >Contact#</th>
+                                                <th>Leaving Date</th>
+                                                <th>Type</th>
+                                                <th>Leaving Reasion</th>
+                                                <th name="PkgCable">Other </th>
+
                                             </tr>
                                         </thead>
                                         <tbody class="list">
@@ -316,7 +294,6 @@
 
         <script>
             $('#recevingForm').on('submit', function(event) {
-
             $('.append').remove();
             $('#appendnet').remove();
             $('#appendcount').remove();
@@ -326,7 +303,7 @@
 
                 event.preventDefault();
                 data=$('#recevingForm').serializeArray();
-                console.log( data);
+                // console.log( data);
 
                 $.ajaxSetup({
                     headers: {
@@ -335,37 +312,21 @@
                 });
                 $.ajax({
                     type: 'GET',
-                    url: '{{route('UserList.filter')}}',
+                    url: '{{route('Deactiave.filter')}}',
                     data: data,
                     success: function(results) {
-                        console.log('result='+results)
-                        count=0;
-                        sumNetAmount=0;
-                        sumReveievedAmount=0;
+
                         i=0;
 
                                 $.each( results, function( key, value ) {
-                                    netA=parseInt(value.netA);
-                                    recA=parseInt(value.recA);
-                                    internetdiscont=parseInt(value.internetdiscont);
-                                    cablediscount=parseInt(value.cablediscount);
-                                    tsum=internetdiscont+cablediscount;
-                                    value.internetdiscont+value.cablediscount
+                                  console.log(value.name)
                                     i++;
-                                    count=count+1;
-                                    sumNetAmount=sumNetAmount+netA;
-                                    sumReveievedAmount=sumReveievedAmount+recA;
-                                    remaining=value.netA-value.recA;
 
-                                    $(".list").append('<tr class="append"><td>'+i+'</td><td>' + value.user_id + '</td> <td>' + value.internetId + '</td><td>' + value.name + '</td><td>' + value.address + '</td><td>'+value.installDate+'</td><td>' +value.contact+'</td><td>'+ value.cablePrice+'</td><td>'+ value.cablediscount+'</td>><td>' + value.internetPrice + '</td><td>' + value.internetdiscont + '</td><td>' +  tsum + '</td></tr>');
+
+                                    $(".list").append('<tr class="append"><td>'+i+'</td><td>' + value.name + '</td> <td>' + value.Customer_id + '</td><td>'+value.sublocality+'</td><td>' + value.address + '</td><td>' + value.contact + '</td><td>' +value.leavingDate+'</td><td>'+ value.type+'</td><td>'+ value.leavingReasion+'</td><td>'+ value.otherComments+'</td></tr>');
 
                                 });
-                               sumRemainingAmount =sumNetAmount-sumReveievedAmount;
-                                $('#stat').append('<th id="appendcount" style=" padding-left: 1rem !important;padding-right: 1rem !important; ">'+count+'</th>');
-                                $('#stat').append('<th id="appendnet" style=" padding-left: 1rem !important;padding-right: 1rem !important; ">'+sumNetAmount+'</th>');
-                                $('#stat').append( '<th id="appendreceive" style=" padding-left: 1rem !important;padding-right: 1rem !important; ">'+sumReveievedAmount+'</th>');
-                                $('#stat').append( '<th id="appendremaing" style=" padding-left: 1rem !important;padding-right: 1rem !important; ">'+sumRemainingAmount+'</th>');
-
+                            //
 
                     }
 
@@ -380,42 +341,6 @@
         </script>
 
 
-        <script>
-// function fnExcelReport()
-// {
-//     var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
-//     var textRange; var j=0;
-//     tab = document.getElementById('targettable'); // id of table
-
-//     for(j = 0 ; j < $('#targettable tr').length ; j++)
-//     {
-//         tab_text=tab_text+tab.rows[j].innerHTML+"</tr>";
-//         //tab_text=tab_text+"</tr>";
-//     }
-
-//     tab_text=tab_text+"</table>";
-//     tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
-//     tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
-//     tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
-
-//     var ua = window.navigator.userAgent;
-//     var msie = ua.indexOf("MSIE ");
-
-//     if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
-//     {
-//         txtArea1.document.open("txt/html","replace");
-//         txtArea1.document.write(tab_text);
-//         txtArea1.document.close();
-//         txtArea1.focus();
-//         sa=txtArea1.document.execCommand("SaveAs",true,"Say Thanks to Sumit.xls");
-//     }
-//     else                 //other browser not tested on IE 11
-//         sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
-
-//     return (sa);
-// }
-
-        </script>
 
     @endsection
 

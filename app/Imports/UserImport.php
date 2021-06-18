@@ -44,6 +44,9 @@ class UserImport implements ToModel, WithHeadingRow, SkipsOnError, SkipsOnFailur
     {
         $email=  (string)$row["email"];
         $companyid=Auth::user()->companyid;
+         (isset($row["internet_discount"])) ?  : $row["internet_discount"]=0;
+         (isset($row["cable_discount"])) ?  : $row["cable_discount"]=0;
+
 
 
         $installationdate=Date::excelToDateTimeObject( $row["installationdate"]);
@@ -55,7 +58,7 @@ class UserImport implements ToModel, WithHeadingRow, SkipsOnError, SkipsOnFailur
 
         $package=package::where('id',(integer)$row["internet_packageid"])->where(  'company_id',$companyid)->get();
         $type="";
-        if(isset($package[0])){
+        if((integer)$row["internet_packageid"] > 0){
         $packageName=$package[0]->package;
         $packagePrice=$package[0]->price;
         $afterDiscount=(integer)$packagePrice- (integer)$row["internet_discount"];
@@ -66,7 +69,7 @@ class UserImport implements ToModel, WithHeadingRow, SkipsOnError, SkipsOnFailur
                 $afterDiscount=0;
             }
 
-        if(isset($cable_package[0])){
+        if((integer)$row["cable_packageid"] > 0){
             $cable_packageName=$cable_package[0]->package;
             $cable_packagePrice=$cable_package[0]->price;
             $cable_packageafterDiscount=(integer)$cable_packagePrice- (integer)$row["cable_discount"];
@@ -77,7 +80,7 @@ class UserImport implements ToModel, WithHeadingRow, SkipsOnError, SkipsOnFailur
                 $cable_packagePrice=0;
                 $cable_packageafterDiscount=0;
             }
-            if(isset($cable_package[0]) && isset($package[0]) ){
+            if((integer)$row["cable_packageid"] > 0  && (integer)$row["internet_packageid"] > 0 ){
 
                 $type="Both";
             }

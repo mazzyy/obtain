@@ -50,7 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/createCustomersUsers', 'App\Http\Controllers\UserController@create')->name('createCustomersUsers');
     Route::get('/createCustomersUsers/show', 'App\Http\Controllers\UserController@show')->name('show');
     Route::post('/createCustomersUsers/update', 'App\Http\Controllers\UserController@update')->name('customer.update');
-    Route::get('/createCustomersUsers/changestatus', 'App\Http\Controllers\UserController@changestatus')->name('customer.changestatus');
+    Route::post('/createCustomersUsers/changestatus', 'App\Http\Controllers\UserController@changestatus')->name('customer.changestatus');
 
     //Excel import
     Route::post("/import", [UserController::class, "import"])->name("import");
@@ -104,7 +104,8 @@ Route::group(['middleware' => 'auth'], function () {
    Route::get("/UserList/filter", 'App\Http\Controllers\UserListController@filter')->name("UserList.filter");
     //Deactivate
    Route::get("/Deactiave", 'App\Http\Controllers\DeactivateController@index')->name("Deactiave");
-   Route::post("/Deactiave/update", 'App\Http\Controllers\DeactivateController@update')->name("Deactiave.update");
+   Route::post("/Deactiave/update", 'App\Http\Controllers\DeactivateController@update')->name("Deactiave.update");//<=createCustomers table
+   Route::get("/Deactiave/filter", 'App\Http\Controllers\DeactivateController@filter')->name("Deactiave.filter");
 
 
 

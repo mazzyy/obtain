@@ -92,7 +92,7 @@
                                                     </td>
                                                     <td id="{{$Customer->id}}-address" >
                                                         <span class="badge badge-dot mr-4">
-
+                                                        <span id="{{$Customer->id}}-sub"  hidden>{{ $Customer->connections->Sublocality }}</span>
                                                             <span
                                                                 class="status">{{ $Customer->connections->address }}</span>
                                                         </span>
@@ -138,7 +138,7 @@
                                                                 <a class="dropdown-item"  data-toggle="modal" data-target="#modal-form-update"  onclick="Edit({{$Customer->id}})" > Edit </a>
                                                                 <a class="dropdown-item"   onclick="status({{$Customer->id}},'active')" >Active</a>
                                                                 <a class="dropdown-item"  data-toggle="modal" data-target="#modal-deactivate"  onclick="status({{$Customer->id}},'deactive')">Deactive</a>
-                                                                {{-- <a class="dropdown-item"   onclick="status({{$Customer->id}},'delete')">Delete</a> --}}
+                                                                <a class="dropdown-item"   onclick="status({{$Customer->id}},'delete')">Delete</a>
                                                                 <a class="dropdown-item"  >Collection</a>
                                                                 <a class="dropdown-item"  >profile</a>
                                                                 <a class="dropdown-item"  >print</a>
@@ -614,6 +614,7 @@
                                                         <input type="hidden" id="aasdjaIdsas" name="aasdjaIdsas">
                                                         <input type="hidden" id="nill" name="nill">
 
+
                                                     </div>
 
                                                     <div class="row ">
@@ -623,7 +624,7 @@
                                                                 <label>Mobile</label>
                                                                 <input type="text" class="form-control" maxlength="11"
                                                                     name="txtPhone1" id="update-txtPhone1" required
-                                                                    onkeypress="javascript:return checkNumber(event)">
+                                                                   >
                                                             </div>
                                                         </div>
                                                         <div class="col-md-3">
@@ -919,7 +920,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-12">
-                            <form role="form" id="Deactiave-update" autocomplete="off" _lpchecked="1" method="get" action="{{route('Deactiave.update')}}">
+                            <form role="form" id="Deactiave-update" autocomplete="off" _lpchecked="1" method="post" action="{{route('Deactiave.update')}}">
                                     <div class="form-row ">
                                         <div class="col-md-3">
                                             <div class="form-group ">
@@ -945,12 +946,14 @@
                                                 <input  name="cell"  type="text" class="form-control" placeholder="Cell #" id="txtcnnCell" readonly="">
                                             </div>
                                         </div>
+                                        <input hidden name="sb"id="sb" />
+                                        <input type="hidden" id="tp" name="tp">
                                     </div>
                                     <div class="form-row ">
                                         <div class="col-md-6">
                                             <div class="form-group ">
                                                 <label>Leaving Date</label>
-                                                <input name="ldate" type="date" class="form-control datepicker-1" id="dtcnnLeaving" data-provide="datepicker" onkeyup="var v = this.value;if (v.match(/^\d{2}$/) !== null) {this.value = v + '/';} else if (v.match(/^\d{2}\/\d{2}$/) !== null) { this.value = v + '/';}">
+                                                <input required name="ldate" type="date" class="form-control datepicker-1" id="dtcnnLeaving" data-provide="datepicker" >
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -972,7 +975,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group ">
                                                 <label>Other Comments</label>
-                                                <input type="text" class="form-control" placeholder="Enter any Comments" id="txtcnnComnt">
+                                                <input type="text" class="form-control" placeholder="Enter any Comments" id="txtcnnComnt" name="txtcnnComnt">
                                             </div>
                                         </div>
 
@@ -1273,14 +1276,19 @@ function typeCheckUpdate(type){
         name=document.getElementById(idd+'-name').textContent;
         address=document.getElementById(idd+'-address').textContent;
         contact=document.getElementById(idd+'-contact').textContent;
+        sub=document.getElementById(idd+'-sub').textContent;
+        type=document.getElementById(idd+'-type').textContent;
 
+console.log('type='+type.toString().trim());
+
+        document.getElementById('sb').value=sub;
         document.getElementById('txtcnnID').value=idd;
-        document.getElementById('txtcnnName').value=name.toString().trim();
+        customerName=document.getElementById('txtcnnName').value=name.toString().trim();
         document.getElementById('txtcnnAddress').value=address.toString().trim();
         document.getElementById('txtcnnCell').value=contact.toString().trim();
+        document.getElementById('tp').value=type.toString().trim();
 
-        // name1=document.getElementById('1509-name').value;
-    // console.log(name.toString().trim());
+
 
 
         console.log(id+desicion);
@@ -1291,14 +1299,15 @@ function typeCheckUpdate(type){
             }
         });
         $.ajax({
-            type: 'get',
+            type: 'post',
             url: '{{ route('customer.changestatus') }}',
             data: {
                 'id': id,
-                'desicion':desicion
+                'desicion':desicion,
+                'name':customerName
             },
             success: function(results) {
-                // console.log(results)
+                console.log(results);
 
                 if(results== 'active'){
                 console.log(results+' '+' #'+id);

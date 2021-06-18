@@ -18,6 +18,7 @@ class CreateQueriesTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('number')->nullable();
+            $table->string('address')->nullable();
             $table->string('description')->nullable();
             $table->string('company_id');
 

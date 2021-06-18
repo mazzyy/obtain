@@ -22,10 +22,10 @@ class CreateDeactivatesTable extends Migration
             $table->string('address')->nullable();
             $table->string('contact')->nullable();
             $table->date('leavingDate');
+            $table->string('type')->nullable();
+            $table->integer('sublocality')->nullable();
             $table->string('leavingReasion')->nullable();
             $table->string('otherComments')->nullable();
-
-
 
         });
     }

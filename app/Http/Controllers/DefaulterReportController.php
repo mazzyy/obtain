@@ -40,8 +40,11 @@ class DefaulterReportController extends Controller
         }
 
         DB::enableQueryLog();
-        $report=bill::where('companie_id',$companyid)->whereBetween('fullDate', [$firstDate, $lastDate])->where('billType','LIKE',"{$Type}%")->where('sublocalityName','LIKE',"{$Sublocality}%")->where('billStatus','=',"unpaid")->orWhere('billStatus','=',"partial")->groupBy('user_name')->orderBy('user_id', 'ASC')->get(array(DB::raw('internetId,address,sublocalityName,user_name,sum(netAmount) as netA,sum(recevieAmount) as recA')));
-        // dd(DB::getQueryLog());
+        // $report=bill::where('companie_id',$companyid)->whereBetween('fullDate', [$firstDate, $lastDate])->where('billType','LIKE',"{$Type}%")->where('sublocalityName','LIKE',"{$Sublocality}%")->where('billStatus','=',"unpaid")->orWhere('billStatus','=',"partial")->groupBy('user_name')->orderBy('user_id', 'ASC')->get(array(DB::raw('internetId,address,sublocalityName,user_name,sum(netAmount) as netA,sum(recevieAmount) as recA')));
+
+        $report=bill::where('companie_id',$companyid)->where('billType','LIKE',"{$Type}%")->where('sublocalityName','LIKE',"{$Sublocality}%")->where('billStatus','=',"unpaid")->orWhere('billStatus','=',"partial")->groupBy('user_name')->orderBy('user_id', 'ASC')->get(array(DB::raw('internetId,address,sublocalityName,user_name,sum(netAmount) as netA,sum(recevieAmount) as recA')));
+
+
         return $report;
     }
 }

@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\connections;
 use App\Models\User;
 use App\Models\deactivate;
+use App\Models\location;
 use Database\Seeders\UsersTableSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 
 
 class DeactivateController extends Controller
@@ -20,27 +23,14 @@ class DeactivateController extends Controller
      *
      */
 
-    public function transformDate($value, $format = 'Y-m-d')
-    {
-        try {
-            return \Carbon\Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($value));
-        } catch (\ErrorException $e) {
-            return \Carbon\Carbon::createFromFormat($format, $value);
-        }
-    }
 
     public function index()
     {
-        //testing
-        $var = '6/11/2021';
-        $date = str_replace('/', '-', $var);
-        $date=date('Y-m-d', strtotime($date));
 
-        $originalDate ='6/11/2021';
-        $newDate = date("Y-m-d", strtotime($originalDate));
+        $companyid = Auth::user()->companyid;
+        $location = location::where('company_id', $companyid)->get();
 
-
-        return $newDate ;
+        return view('reports.deactivate')->with('location',$location);
     }
 
 
@@ -56,9 +46,11 @@ class DeactivateController extends Controller
             $deactivates->Customer_id =   $request->input('id');
             $deactivates->address = $request->input('address');
             $deactivates->contact = $request->input('cell');
-            $deactivates->leavingDate =  $request->input('name');
-            $deactivates->address = $request->input('ldate');
-            $deactivates->otherComments =$request->input('browser');
+            $deactivates->leavingDate =  $request->input('ldate');
+            $deactivates->otherComments =$request->input('txtcnnComnt');
+            $deactivates->sublocality =$request->input('sb');
+            $deactivates->leavingReasion =$request->input('browser');
+            $deactivates->type =$request->input('tp');
             $deactivates->save();
 
 
@@ -73,8 +65,32 @@ class DeactivateController extends Controller
      * @param  \App\Models\deactivate  $deactivate
      * @return \Illuminate\Http\Response
      */
-    public function destroy(deactivate $deactivate)
+    public function filter(Request $request)
     {
-        //
+
+        $lastDate =$request->input('ldate');
+        $firstDate=$request->input('fDate');
+        $Sublocality=$request->input('sub');
+        $Type=$request->input('type');
+        $companyid =Auth::user()->companyid;
+
+
+        if($Sublocality=='All'){
+            $Sublocality='';
+        }
+
+        if($Type=='All'){
+            $Type='';
+        }
+
+        DB::enableQueryLog();
+        // $report=deactivate::join('locations', 'locations.id', '=', 'deactivate.sublocality')->where('deactivates.company_id',$companyid)->whereBetween('leavingDate', [$firstDate, $lastDate])->where('type','LIKE',"{$Type}%")->where('deactivate.sublocality','LIKE',"{$Sublocality}%")->get();
+
+
+        $report=deactivate::where('company_id',$companyid)->whereBetween('leavingDate', [$firstDate, $lastDate])->where('type','LIKE',"{$Type}%")->where('sublocality','LIKE',"{$Sublocality}%")->get();
+
+
+
+        return  $report;
     }
 }

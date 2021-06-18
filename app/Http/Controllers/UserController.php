@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Imports\UserImport;
+use App\Models\bill;
 use Illuminate\Http\Request;
 use App\Models\location;
 use App\Models\connections;
+use App\Models\logs;
 use App\Models\Package;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+
 
 // use Illuminate\Foundation\Validation\ValidatesRequests;
 
@@ -165,6 +168,7 @@ class UserController extends Controller
         $name=$request->input('name');
         $email=$request->input('email');
         $connectionId=$request->input('nill');
+        $type=$request->input('tp');
 
     //    return  $request->input('cmbPackageint');
          //interenet
@@ -198,7 +202,7 @@ class UserController extends Controller
                 $connections->company_id = $companyid;
                 $connections->internetId = $request->input('internetId');
                 $connections->Sublocality = $request->input('Sublocality');
-                $connections->internetId = $request->input('internetId');
+                // $connections->internetId = $request->input('internetId');
                 $connections->address = $request->input('address');
                 $connections->contact = $request->input('txtPhone1');
                 $connections->contact2 = $request->input('txtPhone2');
@@ -226,6 +230,9 @@ class UserController extends Controller
     public function changestatus(Request $request){
         $status=$request->input('desicion');
         $id=$request->input('id');
+        $name=$request->input('name');
+       $companyid=Auth::user()->companyid;
+       $deletedBy=Auth::user()->name;
 
             switch ($status) {
 
@@ -240,8 +247,17 @@ class UserController extends Controller
                     break;
 
                 case "delete":
+
+
+                    $log =new logs();
+                    $log->name=$name;
+                    $log->company_id=$companyid;
+                    $log->extra='Customer '.$name.' deleted by '. $deletedBy;
+                    $log->save();
                     $userdata=connections::where('user_id',$id)->delete();
+                    bill::where('user_id',$id)->delete();
                     user::where('id',$id)->delete();
+
                     return "delete";
                     break;
             }
